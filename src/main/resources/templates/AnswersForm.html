@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        AddAnswer
+    </head>
+
+    <body>
+        <h1>Adding Answers to DB: </h1>
+        <div>
+        <form id="addAnswer" method="post" th:action="@{/answers}" th:object="${answer}">
+            <label for="answer">Answer: </label>
+            <input type="text" name="answer"></br>
+
+            <label for="questionId">QuestionID: </label>
+            <input type="text" name="questionId" th:value="${answer.questionId}"></br>
+
+            <label for="adds">Adds groups: </label>
+            <input type="text" name="adds" th:value="${answer.adds}"></br>
+
+            <input type="submit" onclick="submit()" th:value="add">
+        </form>
+        </div>
+
+    <script>
+        function submit(){
+            document.getElementById("myForm").reset();
+        }
+    </script>
+
+    </body>
+
+</html>
