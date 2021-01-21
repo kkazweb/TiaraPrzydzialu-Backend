@@ -1,21 +1,35 @@
 package pl.programowaniezespolowe.projekt.model;
 
-import java.util.List;
+import lombok.Data;
+import pl.programowaniezespolowe.projekt.repository.QuestionRepository;
 
+import java.util.List;
+import java.util.Map;
+
+@Data
 public class Quiz {
 
-    private List<Question> askedQuestions;
+    private Map<Answer, Question> historiaPytan; // key is unique (answer), value doesnt need to
 
-    private List<String> currentAnswers;
+    private List<String> listaKodow; // maybe map, for questions and answers
 
-    private Boolean ifHasSimilarQuestions(String code) {
-        for(Question question: askedQuestions){
-            if(question.hasSimilarQuestions)
-                return true;
-        }
-        return false;
+    private List<Question> listaPytan;
+
+    public void addQuestion(Question question){
+        this.listaPytan.add(question);
     }
 
+    public void removeFirstQuestion(){
+        this.listaPytan.remove(0);
+    }
+
+    public void updateQuestionsHistory(Question question, Answer answer){
+        historiaPytan.put(answer,question);
+    }
+
+    public List<String> zakonczQuiz(){
+        return this.listaKodow;
+    }
 
 
 
@@ -38,8 +52,7 @@ public class Quiz {
     // wybierajac odpowiedzi dodajemy kolejne odpowiedzi do listy
     // robimy to dopoki lista nie jest pusta lub nie ma samych osatatecznych kodow
 
-    // feature: jezeli lista pusta to obnizyc kwalfikacje (pierwsze sito cofnonc pomzdro)
-    // rozluznij se kryteria synu
+    // feature: jezeli lista pusta to obnizyc kwalfikacje (pierwsze sito cofnac)
 
 
 }
