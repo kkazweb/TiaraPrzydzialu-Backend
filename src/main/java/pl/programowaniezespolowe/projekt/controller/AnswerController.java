@@ -17,39 +17,41 @@ import javax.validation.Valid;
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/answers")
+@RequestMapping("/api/answers")
 public class AnswerController {
 
-    private AnswerRepository answerRepository;
+// narazie to niepotrzebne
 
-    private QuestionRepository questionRepository;
-
-    @Autowired
-    public AnswerController(AnswerRepository answerRepository, QuestionRepository questionRepository){
-        this.answerRepository = answerRepository;
-        this.questionRepository = questionRepository;
-    }
-
-    @ModelAttribute(name = "answer")
-    public Answer answer(){
-        return new Answer();
-    }
-
-    @PostMapping
-    public String processAnswer(@Valid Answer answer, Errors errors){
-        if (errors.hasErrors()){
-            return "error";
-        }
-        System.out.println(answer.getAnswer());
-        System.out.println(answer.getAdds());
-        System.out.println(answer.getQuestionId());
-        answerRepository.save(answer);
-        Question question = questionRepository.findQuestionByQuestionId(answer.getQuestionId());
-        return "AnswersForm";
-    }
-
-    @GetMapping
-    public String showAnswersForm(Model model, Principal principal){
-        return "AnswersForm";
-    }
+//    private AnswerRepository answerRepository;
+//
+//    private QuestionRepository questionRepository;
+//
+//    @Autowired
+//    public AnswerController(AnswerRepository answerRepository, QuestionRepository questionRepository){
+//        this.answerRepository = answerRepository;
+//        this.questionRepository = questionRepository;
+//    }
+//
+//    @ModelAttribute(name = "answer")
+//    public Answer answer(){
+//        return new Answer();
+//    }
+//
+//    @PostMapping
+//    public String processAnswer(@Valid Answer answer, Errors errors){
+//        if (errors.hasErrors()){
+//            return "error";
+//        }
+//        System.out.println(answer.getAnswer());
+//        System.out.println(answer.getAdds());
+//        System.out.println(answer.getQuestionId());
+//        answerRepository.save(answer);
+//        Question question = questionRepository.findQuestionByQuestionId(answer.getQuestionId());
+//        return "AnswersForm";
+//    }
+//
+//    @GetMapping
+//    public String showAnswersForm(Model model, Principal principal){
+//        return "AnswersForm";
+//    }
 }

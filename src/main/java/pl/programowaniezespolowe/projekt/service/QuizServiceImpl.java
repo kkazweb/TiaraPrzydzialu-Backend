@@ -1,5 +1,6 @@
 package pl.programowaniezespolowe.projekt.service;
 
+import org.springframework.stereotype.Service;
 import pl.programowaniezespolowe.projekt.model.Answer;
 import pl.programowaniezespolowe.projekt.model.Question;
 import pl.programowaniezespolowe.projekt.model.QuestionType;
@@ -10,6 +11,7 @@ import pl.programowaniezespolowe.projekt.repository.QuestionRepository;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class QuizServiceImpl implements QuizService {
 
     private QuestionRepository questionRepository;
@@ -25,11 +27,10 @@ public class QuizServiceImpl implements QuizService {
 //        saveAnswer();
 //    }
 
-    private void startQuiz(){
-        List<Question> questions = questionRepository.findByGroupCodeIsNull(); // pytania z pierwszego sita
-        quiz.setListaPytan(questions);
-        // wywolanie getquestion
-    }
+//    public List<Question> startQuiz(){
+//        List<Question> questions = questionRepository.findByGroupCodeIsNull(); // pytania z pierwszego sita
+//        return questions;
+//    }
 
     private Question getQuestion(){
         return quiz.getListaPytan().get(0);
