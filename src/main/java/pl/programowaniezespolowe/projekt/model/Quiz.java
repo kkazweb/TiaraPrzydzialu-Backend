@@ -1,12 +1,17 @@
 package pl.programowaniezespolowe.projekt.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import pl.programowaniezespolowe.projekt.repository.QuestionRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Quiz {
 
     private Map<Answer, Question> historiaPytan; // key is unique (answer), value doesnt need to
@@ -31,7 +36,15 @@ public class Quiz {
         return this.listaKodow;
     }
 
+    public void setQuestions(Iterable<Question> questionIterable){
+        List<Question> questions = new ArrayList<>();
+        questionIterable.forEach(questions::add);
+        this.setListaPytan(questions);
+    }
 
+    public List<Question> getListaPytan(){
+        return this.listaPytan;
+    }
 
     // lista zadanych pytan
     // lista odpowiedzi do pytan

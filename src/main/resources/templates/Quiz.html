@@ -9,14 +9,15 @@
 <body>
     <h1>Quiz page:</h1>
     <div>
-        <h2>List of questions</h2>
-        <table>
-            <thead>
-            <tr>
-                <th th:text="#{quiz.}"
-            </tr>
-            </thead>
-        </table>
+        <h2>Quiz: </h2>
+        <p th:text="${session.quiz}" th:unless="${session == null}">[...]</p>
+<!--        </br><h2>Questions: </h2>-->
+<!--        <tbody>-->
+<!--        <tr th:each="question: ${session.quiz['listaPytan']}">-->
+<!--            <td th:text="${question.question}" /></br>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--        <p th:text="${session.quiz.historiaPytan}"-->
     </div>
 
 </body>

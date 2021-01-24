@@ -18,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/quiz")
+@SessionAttributes("quiz")
 public class QuizController {
 
     private AnswerRepository answerRepository;
@@ -39,13 +40,26 @@ public class QuizController {
         this.questionService = questionService;
     }
 
-    @GetMapping("/start")
-    public Iterable<Question> startQuiz(){
-        return questionService.findAllByGroupCodeNull();
-    }
 
     @ModelAttribute("quiz")
     public Quiz quiz(){
         return new Quiz();
+    }
+
+    @GetMapping("/start")
+    public Quiz startQuiz(Model model, Principal principal){
+        Quiz quiz = new Quiz();
+        Iterable<Question> currentList = questionService.findAllByGroupCodeNull();
+//        System.out.println(currentList);
+        quiz.setQuestions(currentList);
+        model.addAttribute(quiz);
+        return quiz;
+    }
+
+    @GetMapping("/form")
+    public Quiz showForm(Model model, @ModelAttribute("quiz") Quiz quiz) {
+//        System.out.println(quiz);
+        quiz.removeFirstQuestion();
+        return quiz;
     }
 }
