@@ -29,8 +29,8 @@ public class Question {
     // ("tak", questionID??, {"11", "12"})
     // ("nie", questionID??, {"11", "12"})
 
-    @Enumerated(EnumType.STRING)
-    private QuestionType questionType; // to decide whether this question is add, remove or select type
+//    @Enumerated(EnumType.STRING)
+    private String questionType; // to decide whether this question is add, remove or select type
 
     @OneToMany
     private List<Answer> answers; // one question can have many answers

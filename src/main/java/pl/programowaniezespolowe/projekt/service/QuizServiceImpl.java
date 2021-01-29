@@ -3,7 +3,7 @@ package pl.programowaniezespolowe.projekt.service;
 import org.springframework.stereotype.Service;
 import pl.programowaniezespolowe.projekt.model.Answer;
 import pl.programowaniezespolowe.projekt.model.Question;
-import pl.programowaniezespolowe.projekt.model.QuestionType;
+//import pl.programowaniezespolowe.projekt.model.QuestionType;
 import pl.programowaniezespolowe.projekt.model.Quiz;
 import pl.programowaniezespolowe.projekt.repository.AnswerRepository;
 import pl.programowaniezespolowe.projekt.repository.QuestionRepository;

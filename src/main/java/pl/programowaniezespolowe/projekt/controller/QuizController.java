@@ -47,20 +47,29 @@ public class QuizController {
         return new Quiz();
     }
 
+//    @GetMapping("/start")
+//    public Quiz startQuiz(Model model, Principal principal, HttpSession session){
+////        HTTPSESSION session nie robi w zasadzie nic, poza tym, ze
+//        // przywoluje obiekt sesji do javy i mozemy na nim debugowac. fajnie
+//        // na model model tez mozna milo debugowac, polecamm stawiac endpointy przy wywolaniach i na koncu funkcji -
+//        // wtedy widac jak nasz model pracuje i co powinnismy dostawac a co dostajemy
+//        Quiz quiz = new Quiz();
+//        Iterable<Question> currentList = questionService.findAllByGroupCodeNull();
+////        System.out.println(currentList);
+//        quiz.setQuestions(currentList);
+////        System.out.println(quiz);
+//        model.addAttribute("quiz", quiz);
+////        System.out.println(model);
+////        System.out.println(session);
+//        return quiz;
+//    }
+
     @GetMapping("/start")
     public Quiz startQuiz(Model model, Principal principal, HttpSession session){
-//        HTTPSESSION session nie robi w zasadzie nic, poza tym, ze
-        // przywoluje obiekt sesji do javy i mozemy na nim debugowac. fajnie
-        // na model model tez mozna milo debugowac, polecamm stawiac endpointy przy wywolaniach i na koncu funkcji -
-        // wtedy widac jak nasz model pracuje i co powinnismy dostawac a co dostajemy 
         Quiz quiz = new Quiz();
-        Iterable<Question> currentList = questionService.findAllByGroupCodeNull();
-//        System.out.println(currentList);
+        Iterable<Question> currentList = questionService.findAllByGroupCode("start");
         quiz.setQuestions(currentList);
-//        System.out.println(quiz);
         model.addAttribute("quiz", quiz);
-//        System.out.println(model);
-//        System.out.println(session);
         return quiz;
     }
 
