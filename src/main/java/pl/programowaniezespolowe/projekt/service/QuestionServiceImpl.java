@@ -30,10 +30,10 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     public Iterable<Question> findAllByGroupCodeNull(){
-        return questionRepository.findQuestionByGroupCode("null");
+        return questionRepository.findQuestionsByGroupCode("null");
     }
 
     public Iterable<Question> findAllByGroupCode(String code){
-        return questionRepository.findQuestionByGroupCode(code);
+        return questionRepository.findQuestionsByGroupCode(code);
     }
 }

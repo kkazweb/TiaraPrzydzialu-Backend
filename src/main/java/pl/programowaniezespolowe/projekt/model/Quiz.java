@@ -42,6 +42,14 @@ public class Quiz {
         this.setListaPytan(questions);
     }
 
+    public void addCode(String code){
+        this.listaKodow.add(code);
+    }
+
+    public void addHistory(Answer answer, Question question){
+        this.historiaPytan.put(answer, question);
+    }
+
     public List<Question> getListaPytan(){
         return this.listaPytan;
     }
