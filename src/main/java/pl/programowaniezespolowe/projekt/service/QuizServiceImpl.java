@@ -25,7 +25,7 @@ public class QuizServiceImpl implements QuizService {
     }
 
     private List<Answer> getAnswers(Question question){
-        return answerRepository.findAnswersByQuestionId(question.getQuestionId());
+        return answerRepository.findAnswersByQuestionId(question.getId());
     }
 
     private void saveAnswer(Question question, Answer answer){
