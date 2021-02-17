@@ -72,12 +72,12 @@ public class QuizController {
 
         quiz.addHistory(answer, quiz.getQuestionList().get(0));
         quiz.removeFirstQuestion();
-        for(int i = 0; i < answer.getAdds().size(); i++){
-            Question question = questionRepository.findQuestionByGroupCode(answer.getAdds().get(i));
+        for(int i = 0; i < answer.getAddsGroupCodes().size(); i++){
+            Question question = questionRepository.findQuestionByGroupCode(answer.getAddsGroupCodes().get(i));
 
             quiz.addQuestion(question);
-            if(answer.getAdds().size() > 0) {
-                quiz.addCode(answer.getAdds().get(i));
+            if(answer.getAddsGroupCodes().size() > 0) {
+                quiz.addCode(answer.getAddsGroupCodes().get(i));
             }
         }
         return quiz;
