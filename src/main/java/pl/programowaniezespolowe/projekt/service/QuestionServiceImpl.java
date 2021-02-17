@@ -29,10 +29,6 @@ public class QuestionServiceImpl implements QuestionService{
         questionRepository.deleteById(id);
     }
 
-    public Iterable<Question> findAllByGroupCodeNull(){
-        return questionRepository.findQuestionsByGroupCode("null");
-    }
-
     public Iterable<Question> findAllByGroupCode(String code){
         return questionRepository.findQuestionsByGroupCode(code);
     }

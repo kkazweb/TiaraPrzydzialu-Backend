@@ -20,20 +20,8 @@ public class QuizServiceImpl implements QuizService {
 
     private Quiz quiz;
 
-//    public void konsola(){
-//        startQuiz();
-//        getQuestion();
-//        getAnswers();
-//        saveAnswer();
-//    }
-
-//    public List<Question> startQuiz(){
-//        List<Question> questions = questionRepository.findByGroupCodeIsNull(); // pytania z pierwszego sita
-//        return questions;
-//    }
-
     private Question getQuestion(){
-        return quiz.getListaPytan().get(0);
+        return quiz.getQuestionList().get(0);
     }
 
     private List<Answer> getAnswers(Question question){
@@ -49,40 +37,9 @@ public class QuizServiceImpl implements QuizService {
         } // tu byly problemy z castowaniem typu Optional na typ Question
 
         quiz.removeFirstQuestion();
-        if(quiz.getListaPytan().isEmpty() || quiz.getListaPytan().get(0).getGroupCode().length() == 4) {
-            quiz.zakonczQuiz();
-        } // to chyba tez na froncie moze byc
-//        }
-//        else {
-//            getQuestion();
-//        }
+        if(questionRepository.existsByGroupCode(quiz.getGroupCodes().get(0))){
+            quiz.endQuiz();
+        }
     }
-
-
-
-    // if has similar question
-    // if similar question has been asked
-    // ogolnie to to powinno byc quizservice
-//    private void startQuiz(){
-//        String questionNumber;
-//        int flag = 0; // determines if there are only length 4 groups in currentAnswers;
-//        List<Question> group0questions = questionRepository.findByGroupCodeIsNull();
-//        while(!currentAnswers.isEmpty() || flag == 1){
-//            questionNumber = currentAnswers.get(0);
-//            currentAnswers.remove(0);
-//            Question question = (Question) questionRepository.findQuestionByGroupCode(questionNumber);
-//            //todo: check if question was already asked, if so use the answer
-//            currentAnswers.addAll(askQuestion(question));
-//            if(currentAnswers.get(0).length() == 4){
-//                flag = 1;
-//            }
-//        }
-//    }
-//
-//    private List<String> askQuestion(Question question){ // zwraca groupCode lub liste
-//        List<Answer> answers = question.getAnswers();
-//        QuestionType type = question.getQuestionType();
-//
-//    }
 
 }

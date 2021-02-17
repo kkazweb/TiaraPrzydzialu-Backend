@@ -28,9 +28,6 @@ public class ShowQuizController {
 
     @GetMapping
     public String showQuiz(Model model, @ModelAttribute("quiz") Quiz quiz){
-//        List<Question> questions = quiz.getListaPytan();
-//           System.out.println(questions);
-//        model.addAttribute(questions);
         System.out.println(quiz);
         return "Quiz";
     }

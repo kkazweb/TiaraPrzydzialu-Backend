@@ -19,16 +19,13 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String answer;
- // "asd", 8668, {"asd","bsd"}
+    private String text;
+
     @NotNull
-    private Long questionId; // questionId of question that answer is for
-    // czy nie lepiej questionCode
+    private Long questionId;
 
     @ElementCollection(targetClass = String.class)
-    private List<String> adds; //code numbers, as ex. "212"
-    // answer of type: yes, adds 2020
-    // answer of type: biology, adds 2020, 2021
+    private List<String> addsGroupCodes;
 
 
 

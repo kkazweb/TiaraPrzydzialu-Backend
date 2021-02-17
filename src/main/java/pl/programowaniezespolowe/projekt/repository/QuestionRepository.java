@@ -9,10 +9,12 @@ import java.util.List;
 
 @Repository
 public interface QuestionRepository extends CrudRepository<Question, Long> {
-    //List<Question> findByGroupCodeIsNull();
+
     List<Question> findQuestionsByGroupCode(String code);
 
     Question findQuestionByGroupCode(String code);
 
     Question findQuestionByQuestionId(Long questionId);
+
+    Boolean existsByGroupCode(String code);
 }
