@@ -16,7 +16,7 @@ public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long questionId;
+    private Long id;
 
     private String groupCode;
 
