@@ -21,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/quiz")
 @SessionAttributes("quiz")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class QuizController {
 
     private AnswerRepository answerRepository;
