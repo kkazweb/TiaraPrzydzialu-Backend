@@ -1,45 +1,56 @@
 package pl.programowaniezespolowe.projekt.model;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Quiz {
 
-    private List<Question> askedQuestions;
+    private Map<Answer, Question> questionsHistory; // key is unique (answer), value doesnt need to
 
-    private List<String> currentAnswers;
+    private List<String> groupCodes;
 
-    private Boolean ifHasSimilarQuestions(String code) {
-        for(Question question: askedQuestions){
-            if(question.hasSimilarQuestions)
-                return true;
-        }
-        return false;
+    private List<Question> questionList;
+
+    public void addQuestion(Question question){
+        this.questionList.add(question);
     }
 
+    public void removeFirstQuestion(){
+        this.questionList.remove(0);
+    }
 
+    public void updateQuestionsHistory(Question question, Answer answer){
+        questionsHistory.put(answer,question);
+    }
 
+    public List<String> endQuiz(){
+        return this.groupCodes;
+    }
 
-    // lista zadanych pytan
-    // lista odpowiedzi do pytan
-    // czy zadane pytanie sie powtarza
-    // czy bylo juz powtorzone
-    // questionType
-    // askQuestion
+    public void setQuestions(Iterable<Question> questionIterable){
+        List<Question> questions = new ArrayList<>();
+        questionIterable.forEach(questions::add);
+        this.setQuestionList(questions);
+    }
 
-    // start algorytmu
-    // (pierwsze sito) // mozemy przechowywac "poziom" kompetencji zeby go potem obnizyc(patrz feature)
-    // zwraca grupy od 0 do 9
-    // kolekcojnujemy odpowiedzi do AnswersList
-    // z AnswerList bierzemy 1. element i zadajemy
-    // pytanie szukajac po kodzie
-    // od danego kodu sprawdzamy typ pytania
-    // w zaleznosci od naszego typu pytania odpowiedzi
-    // beda mialy wlasnosc ADD, REMOVE, SELECT(do checkboxow lub hierarchii)
-    // wybierajac odpowiedzi dodajemy kolejne odpowiedzi do listy
-    // robimy to dopoki lista nie jest pusta lub nie ma samych osatatecznych kodow
+    public void addCode(String code){
+        this.groupCodes.add(code);
+    }
 
-    // feature: jezeli lista pusta to obnizyc kwalfikacje (pierwsze sito cofnonc pomzdro)
-    // rozluznij se kryteria synu
+    public void addHistory(Answer answer, Question question){
+        this.questionsHistory.put(answer, question);
+    }
 
+    public List<Question> getQuestionList(){
+        return this.questionList;
+    }
 
 }

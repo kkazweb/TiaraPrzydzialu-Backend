@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz page</title>
+</head>
+<body>
+    <h1>Quiz page:</h1>
+    <div>
+        <h2>Quiz: </h2>
+        <p th:text="${session.quiz}" th:unless="${session == null}">[...]</p>
+<!--        </br><h2>Questions: </h2>-->
+<!--        <tbody>-->
+<!--        <tr th:each="question: ${session.quiz['listaPytan']}">-->
+<!--            <td th:text="${question.question}" /></br>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--        <p th:text="${session.quiz.historiaPytan}"-->
+    </div>
+
+</body>
+</html>

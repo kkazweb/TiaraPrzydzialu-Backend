@@ -1,10 +1,12 @@
 package pl.programowaniezespolowe.projekt.model;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.List;
 
 @Data
@@ -17,14 +19,13 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String answer;
+    private String text;
 
-    private Long questionId; // questionId of question that answer is for
+    @NotNull
+    private Long questionId;
 
     @ElementCollection(targetClass = String.class)
-    private List<String> adds; //code numbers, as ex. "212"
-    // answer of type: yes, adds 2020
-    // answer of type: biology, adds 2020, 2021
+    private List<String> addsGroupCodes;
 
 
 

@@ -18,25 +18,15 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long questionId;
 
-    // chyba kod grupy tez powinnismy zawrzec
-    private String groupCode; // kod typu "1" lub "11"
+    private String groupCode;
 
-    private String question;
-
-    // ("1", pytanie, ADD, {})
-
-    // odp:
-    // ("tak", questionID??, {"11", "12"})
-    // ("nie", questionID??, {"11", "12"})
-
-    @Enumerated(EnumType.STRING)
-    private QuestionType questionType; // to decide whether this question is add, remove or select type
+    private String text;
 
     @OneToMany
-    private List<Answer> answers; // one question can have many answers
+    private List<Answer> answers;
 
     boolean hasSimilarQuestions;
-//    private List<Question> similarQuestion;
-    // <- lista duplikatow
+
+//    private List<Question> similarQuestions;
 
 }
