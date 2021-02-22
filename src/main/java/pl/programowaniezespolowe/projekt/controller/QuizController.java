@@ -55,6 +55,7 @@ public class QuizController {
     }
 
     @PostMapping("/test")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public String testowyPost(@RequestBody String text){
         String result = "testowy String2 " + text;
         return result;
