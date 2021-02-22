@@ -49,6 +49,18 @@ public class QuizController {
     }
 
 
+    @GetMapping("/test")
+    public String testowyGet(){
+        return "testowy String";
+    }
+
+    @PostMapping("/test")
+    public String testowyPost(@RequestBody String text){
+        String result = "testowy String2 " + text;
+        return result;
+    }
+
+
     @GetMapping("/start")
     public Quiz startQuiz(Model model, Principal principal, HttpSession session){
         Quiz quiz = new Quiz();
