@@ -48,6 +48,17 @@ public class QuizController {
         return new Quiz();
     }
 
+    //cos
+//    @GetMapping("/test")
+//    public String test(){
+//        return "testowy String";
+//    }
+//
+//    @PostMapping("/test1")
+//    public String test(@RequestBody String test){
+//        return test + "test2";
+//    }
+
 
     @GetMapping("/test")
     public String testowyGet(){
