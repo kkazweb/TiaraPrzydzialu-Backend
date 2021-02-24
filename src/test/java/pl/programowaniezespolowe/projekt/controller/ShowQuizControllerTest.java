@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @AutoConfigureWebMvc
 class ShowQuizControllerTest {
 
@@ -19,5 +17,6 @@ class ShowQuizControllerTest {
 
     @Test
     void showQuiz() {
+
     }
 }

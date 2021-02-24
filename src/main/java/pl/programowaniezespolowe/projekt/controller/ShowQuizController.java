@@ -16,7 +16,7 @@ public class ShowQuizController {
     }
 
     @GetMapping
-    public String showQuiz(Model model, @ModelAttribute("quiz") Quiz quiz){
+    public String showQuiz(@ModelAttribute("quiz") Quiz quiz){
         System.out.println(quiz);
         return "Quiz";
     }

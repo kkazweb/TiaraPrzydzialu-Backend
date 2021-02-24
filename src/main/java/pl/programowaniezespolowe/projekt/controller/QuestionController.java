@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.programowaniezespolowe.projekt.model.Question;
 import pl.programowaniezespolowe.projekt.service.QuestionServiceImpl;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -29,6 +28,5 @@ public class QuestionController {
     public Optional<Question> getById(@RequestParam Long id){
         return questionService.findById(id);
     }
-
 
 }
