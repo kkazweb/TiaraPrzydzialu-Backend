@@ -21,6 +21,8 @@ public class AnswerServiceImpl implements AnswerService {
         return answerRepository.findById(id);
     }
 
+    public Answer findAnswerById(Long id){ return answerRepository.findAnswerById(id);}
+
     public Iterable<Answer> findAll(){
         return answerRepository.findAll();
     }
