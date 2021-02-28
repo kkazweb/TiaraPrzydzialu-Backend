@@ -32,4 +32,8 @@ public class QuestionServiceImpl implements QuestionService{
     public Iterable<Question> findAllByGroupCode(String code){
         return questionRepository.findQuestionsByGroupCode(code);
     }
+
+    public Question findQuestionByGroupCode(String code){
+        return questionRepository.findQuestionByGroupCode(code);
+    }
 }

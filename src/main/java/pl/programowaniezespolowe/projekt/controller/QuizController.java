@@ -13,14 +13,13 @@ import pl.programowaniezespolowe.projekt.service.QuestionServiceImpl;
 import pl.programowaniezespolowe.projekt.service.QuizServiceImpl;
 
 import javax.servlet.http.HttpSession;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 @RestController
 @RequestMapping("/quiz")
-@SessionAttributes("quiz")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class QuizController {
 
     private AnswerRepository answerRepository;
@@ -43,77 +42,53 @@ public class QuizController {
     }
 
 
-    @ModelAttribute(name = "quiz")
-    public Quiz quiz(){
-        return new Quiz();
-    }
-
-    //cos
-//    @GetMapping("/test")
-//    public String test(){
-//        return "testowy String";
-//    }
-//
-//    @PostMapping("/test1")
-//    public String test(@RequestBody String test){
-//        return test + "test2";
-//    }
-
-
-    @GetMapping("/test")
-    public String testowyGet(){
-        return "testowy String";
-    }
-
-    @PostMapping("/test")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public String testowyPost(@RequestBody String text){
-        String result = "testowy String2 " + text;
-        return result;
+    @PostMapping("/test1")
+    public String test(@RequestBody String text){
+        System.out.println(text);
+        return text + "test2";
     }
 
 
     @GetMapping("/start")
-    public Quiz startQuiz(Model model, Principal principal, HttpSession session){
+    public Quiz startQuiz(){
         Quiz quiz = new Quiz();
         Iterable<Question> currentList = questionService.findAllByGroupCode("start");
         HashMap<Answer, Question> map = new HashMap<>();
         List<String> codes = new ArrayList<>();
+        List<Long> answerIds = new ArrayList<>();
         quiz.setGroupCodes(codes);
-        quiz.setQuestionsHistory(map);
         quiz.setQuestions(currentList);
-        model.addAttribute("quiz", quiz);
-        return quiz;
-    }
-
-    @GetMapping("/form")
-    public Quiz showForm(Model model, @ModelAttribute("quiz") Quiz quiz, HttpSession session) {
+        quiz.setAnswerIds(answerIds);
         return quiz;
     }
 
     @PostMapping("/form")
-    public Quiz showForm(Model mode, @ModelAttribute("quiz") Quiz quiz, @RequestBody Answer answer){
-
-        quiz.addHistory(answer, quiz.getQuestionList().get(0));
-        quiz.removeFirstQuestion();
-        for(int i = 0; i < answer.getAddsGroupCodes().size(); i++){
-            Question question = questionRepository.findQuestionByGroupCode(answer.getAddsGroupCodes().get(i));
-
-            quiz.addQuestion(question);
-            if(answer.getAddsGroupCodes().size() > 0) {
-                quiz.addCode(answer.getAddsGroupCodes().get(i));
+    public Quiz showForm(@RequestBody Quiz quiz){
+        System.out.println(quiz.getAnswerIds());
+        for(int i = 0; i < quiz.getAnswerIds().size(); i++){
+            System.out.println(quiz.getAnswerIds().get(i));
+        }
+        List<Answer> answers = new ArrayList<>();
+        for(int i = 0; i < quiz.getAnswerIds().size(); i++){
+            Answer answer = answerService.findAnswerById(quiz.getAnswerIds().get(i));
+            answers.add(answer);
+        }
+        System.out.println(answers);
+        if(quiz.getQuestionList().size() > 0)
+            quiz.getQuestionList().remove(0);
+        for(int i = 0; i < answers.size(); i++){
+            for(int j = 0; j < answers.get(i).getAddsGroupCodes().size(); j++){
+                Question question = questionRepository.findQuestionByGroupCode(answers.get(i).getAddsGroupCodes().get(j));
+                quiz.addQuestion(question);
+                if(questionRepository.findQuestionsByGroupCode(answers.get(i).getAddsGroupCodes().get(j)).size() == 0){
+                    quiz.addCode(answers.get(i).getAddsGroupCodes().get(j));
+                }
             }
         }
+        System.out.println(quiz.getQuestionList());
+        quiz.getAnswerIds().clear();
         return quiz;
     }
 
-    public static boolean isInteger(String s){
-        if(s.isEmpty())
-            return false;
-        for(int i = 0; i < s.length(); i++){
-            if( Character.digit(s.charAt(i), 10)<0)
-                return false;
-        }
-        return true;
-    }
+    // powinnismy przeniesc logike z kontrolerow do serwisow
 }
