@@ -29,4 +29,5 @@ public class Question {
 
 //    private List<Question> similarQuestions;
 
+    private Boolean multipleChoice;
 }

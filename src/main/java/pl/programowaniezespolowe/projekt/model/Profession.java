@@ -24,5 +24,12 @@ public class Profession {
     @OneToOne
     private Profession parentId; // id kod.length - 1
 
-    private String description;
+    private String synthesis;
+
+    private String tasks;
+
+    private String additionalTasks;
+
+    private String url;
+
 }
