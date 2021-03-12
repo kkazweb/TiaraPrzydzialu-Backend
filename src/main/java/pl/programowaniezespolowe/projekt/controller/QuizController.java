@@ -8,6 +8,7 @@ import pl.programowaniezespolowe.projekt.model.Question;
 import pl.programowaniezespolowe.projekt.model.Quiz;
 import pl.programowaniezespolowe.projekt.repository.AnswerRepository;
 import pl.programowaniezespolowe.projekt.repository.QuestionRepository;
+import pl.programowaniezespolowe.projekt.service.AlgorithmServiceImpl;
 import pl.programowaniezespolowe.projekt.service.AnswerServiceImpl;
 import pl.programowaniezespolowe.projekt.service.QuestionServiceImpl;
 import pl.programowaniezespolowe.projekt.service.QuizServiceImpl;
@@ -32,13 +33,16 @@ public class QuizController {
 
     private QuestionServiceImpl questionService;
 
+    private AlgorithmServiceImpl algorithmService;
+
     @Autowired
-    public QuizController(AnswerRepository answerRepository, QuestionRepository questionRepository, QuizServiceImpl quizService, AnswerServiceImpl answerService, QuestionServiceImpl questionService) {
+    public QuizController(AnswerRepository answerRepository, QuestionRepository questionRepository, QuizServiceImpl quizService, AnswerServiceImpl answerService, QuestionServiceImpl questionService, AlgorithmServiceImpl algorithmService) {
         this.answerRepository = answerRepository;
         this.questionRepository = questionRepository;
         this.quizService = quizService;
         this.answerService = answerService;
         this.questionService = questionService;
+        this.algorithmService = algorithmService;
     }
 
 
@@ -51,44 +55,15 @@ public class QuizController {
 
     @GetMapping("/start")
     public Quiz startQuiz(){
-        Quiz quiz = new Quiz();
-        Iterable<Question> currentList = questionService.findAllByGroupCode("start");
-        HashMap<Answer, Question> map = new HashMap<>();
-        List<String> codes = new ArrayList<>();
-        List<Long> answerIds = new ArrayList<>();
-        quiz.setGroupCodes(codes);
-        quiz.setQuestions(currentList);
-        quiz.setAnswerIds(answerIds);
-        return quiz;
+        return this.algorithmService.startQuiz();
     }
 
     @PostMapping("/form")
     public Quiz showForm(@RequestBody Quiz quiz){
-        System.out.println(quiz.getAnswerIds());
-        for(int i = 0; i < quiz.getAnswerIds().size(); i++){
-            System.out.println(quiz.getAnswerIds().get(i));
-        }
-        List<Answer> answers = new ArrayList<>();
-        for(int i = 0; i < quiz.getAnswerIds().size(); i++){
-            Answer answer = answerService.findAnswerById(quiz.getAnswerIds().get(i));
-            answers.add(answer);
-        }
-        System.out.println(answers);
-        if(quiz.getQuestionList().size() > 0)
-            quiz.getQuestionList().remove(0);
-        for(int i = 0; i < answers.size(); i++){
-            for(int j = 0; j < answers.get(i).getAddsGroupCodes().size(); j++){
-                Question question = questionRepository.findQuestionByGroupCode(answers.get(i).getAddsGroupCodes().get(j));
-                quiz.addQuestion(question);
-                if(questionRepository.findQuestionsByGroupCode(answers.get(i).getAddsGroupCodes().get(j)).size() == 0){
-                    quiz.addCode(answers.get(i).getAddsGroupCodes().get(j));
-                }
-            }
-        }
-        System.out.println(quiz.getQuestionList());
-        quiz.getAnswerIds().clear();
-        return quiz;
+        return this.algorithmService.showForm(quiz);
     }
+
+
 
     // powinnismy przeniesc logike z kontrolerow do serwisow
 }

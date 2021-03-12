@@ -25,8 +25,14 @@ public class Question {
     @OneToMany
     private List<Answer> answers;
 
-    boolean hasSimilarQuestions;
+    private boolean hasSimilarQuestions;
 
-//    private List<Question> similarQuestions;
+
+    @ElementCollection(targetClass = Long.class)
+    private List<Long> similarQuestionIds;
+
+    public void addSimilarQuestion(Long id){
+        this.similarQuestionIds.add(id);
+    }
 
 }
