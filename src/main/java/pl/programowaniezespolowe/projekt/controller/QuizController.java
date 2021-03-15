@@ -8,17 +8,18 @@ import pl.programowaniezespolowe.projekt.model.Question;
 import pl.programowaniezespolowe.projekt.model.Quiz;
 import pl.programowaniezespolowe.projekt.repository.AnswerRepository;
 import pl.programowaniezespolowe.projekt.repository.QuestionRepository;
+import pl.programowaniezespolowe.projekt.service.AlgorithmServiceImpl;
 import pl.programowaniezespolowe.projekt.service.AnswerServiceImpl;
 import pl.programowaniezespolowe.projekt.service.QuestionServiceImpl;
 import pl.programowaniezespolowe.projekt.service.QuizServiceImpl;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 @RestController
 @RequestMapping("/quiz")
-@SessionAttributes("quiz")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class QuizController {
 
@@ -32,61 +33,32 @@ public class QuizController {
 
     private QuestionServiceImpl questionService;
 
+    private AlgorithmServiceImpl algorithmService;
+
     @Autowired
-    public QuizController(AnswerRepository answerRepository, QuestionRepository questionRepository, QuizServiceImpl quizService, AnswerServiceImpl answerService, QuestionServiceImpl questionService) {
+    public QuizController(AnswerRepository answerRepository, QuestionRepository questionRepository, QuizServiceImpl quizService, AnswerServiceImpl answerService, QuestionServiceImpl questionService, AlgorithmServiceImpl algorithmService) {
         this.answerRepository = answerRepository;
         this.questionRepository = questionRepository;
         this.quizService = quizService;
         this.answerService = answerService;
         this.questionService = questionService;
+        this.algorithmService = algorithmService;
     }
 
-    @ModelAttribute(name = "quiz")
-    public Quiz quiz(){
-        return new Quiz();
+    @PostMapping("/test1")
+    public String test(@RequestBody String text){
+        System.out.println(text);
+        return text + "test2";
     }
 
     @GetMapping("/start")
-    public Quiz startQuiz(Model model){
-        Quiz quiz = new Quiz();
-        Iterable<Question> currentList = questionService.findAllByGroupCode("start");
-        HashMap<Answer, Question> map = new HashMap<>();
-        List<String> codes = new ArrayList<>();
-        quiz.setGroupCodes(codes);
-        quiz.setQuestionsHistory(map);
-        quiz.setQuestions(currentList);
-        model.addAttribute("quiz", quiz);
-        return quiz;
-    }
-
-    @GetMapping("/form")
-    public Quiz showForm(@ModelAttribute("quiz") Quiz quiz) {
-        return quiz;
+    public Quiz startQuiz(){
+        return this.algorithmService.startQuiz();
     }
 
     @PostMapping("/form")
-    public Quiz showForm(@ModelAttribute("quiz") Quiz quiz, @RequestBody Answer answer){
-
-        quiz.addHistory(answer, quiz.getQuestionList().get(0));
-        quiz.removeFirstQuestion();
-        for(int i = 0; i < answer.getAddsGroupCodes().size(); i++){
-            Question question = questionRepository.findQuestionByGroupCode(answer.getAddsGroupCodes().get(i));
-
-            quiz.addQuestion(question);
-            if(answer.getAddsGroupCodes().size() > 0) {
-                quiz.addCode(answer.getAddsGroupCodes().get(i));
-            }
-        }
-        return quiz;
+    public Quiz showForm(@RequestBody Quiz quiz){
+        return this.algorithmService.showForm(quiz);
     }
 
-    public static boolean isInteger(String s){
-        if(s.isEmpty())
-            return false;
-        for(int i = 0; i < s.length(); i++){
-            if( Character.digit(s.charAt(i), 10)<0)
-                return false;
-        }
-        return true;
-    }
 }

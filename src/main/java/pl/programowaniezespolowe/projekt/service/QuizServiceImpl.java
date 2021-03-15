@@ -28,7 +28,7 @@ public class QuizServiceImpl implements QuizService {
     }
 
     private void saveAnswer(Question question, Answer answer){
-        quiz.updateQuestionsHistory(question, answer);
+//        quiz.updateQuestionsHistory(question, answer);
         Optional<Question> question1 = questionRepository.findById(answer.getQuestionId());
         if(question1.isPresent()){
             Question question2 = question1.get();
