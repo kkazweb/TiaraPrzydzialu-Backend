@@ -12,8 +12,6 @@ import pl.programowaniezespolowe.projekt.service.AnswerServiceImpl;
 import pl.programowaniezespolowe.projekt.service.QuestionServiceImpl;
 import pl.programowaniezespolowe.projekt.service.QuizServiceImpl;
 
-import javax.servlet.http.HttpSession;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +22,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class QuizController {
 
-    private AnswerRepository answerRepository;
+    private final AnswerRepository answerRepository;
 
     private QuestionRepository questionRepository;
 
@@ -43,15 +41,13 @@ public class QuizController {
         this.questionService = questionService;
     }
 
-
     @ModelAttribute(name = "quiz")
     public Quiz quiz(){
         return new Quiz();
     }
 
-
     @GetMapping("/start")
-    public Quiz startQuiz(Model model, Principal principal, HttpSession session){
+    public Quiz startQuiz(Model model){
         Quiz quiz = new Quiz();
         Iterable<Question> currentList = questionService.findAllByGroupCode("start");
         HashMap<Answer, Question> map = new HashMap<>();
@@ -64,12 +60,12 @@ public class QuizController {
     }
 
     @GetMapping("/form")
-    public Quiz showForm(Model model, @ModelAttribute("quiz") Quiz quiz, HttpSession session) {
+    public Quiz showForm(@ModelAttribute("quiz") Quiz quiz) {
         return quiz;
     }
 
     @PostMapping("/form")
-    public Quiz showForm(Model mode, @ModelAttribute("quiz") Quiz quiz, @RequestBody Answer answer){
+    public Quiz showForm(@ModelAttribute("quiz") Quiz quiz, @RequestBody Answer answer){
 
         quiz.addHistory(answer, quiz.getQuestionList().get(0));
         quiz.removeFirstQuestion();

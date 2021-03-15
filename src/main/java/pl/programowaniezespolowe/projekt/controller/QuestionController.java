@@ -12,7 +12,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class QuestionController {
 
-    private QuestionServiceImpl questionService;
+    private final QuestionServiceImpl questionService;
 
     @Autowired
     public QuestionController(QuestionServiceImpl questionService) {
