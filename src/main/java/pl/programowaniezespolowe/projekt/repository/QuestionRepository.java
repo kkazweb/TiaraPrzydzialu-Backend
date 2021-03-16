@@ -15,8 +15,8 @@ public interface QuestionRepository extends CrudRepository<Question, Long> {
 
     List<Question> findQuestionsByGroupCode(String code);
 
-    Question findQuestionByGroupCode(String code);
-//    Optional<Question> findQuestionByGroupCode(String code);
+//    Question findQuestionByGroupCode(String code);
+    Optional<Question> findQuestionByGroupCode(String code);
 
     Question findQuestionById(Long questionId);
 //    Optional<Question> findQuestionById(Long questionId);
