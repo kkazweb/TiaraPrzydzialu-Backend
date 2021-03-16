@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AlgorithmServiceImpl implements AlgorithmService {
+public class AlgorithmServiceImpl {
 
     private AnswerServiceImpl answerService;
 
@@ -77,25 +77,15 @@ public class AlgorithmServiceImpl implements AlgorithmService {
         quiz.getAnswerIds().clear();
         answers.clear();
 
-        // tu sprawdzic czy kolejne pytanie nie bylo juz zadane
         while(checkIfQuestionWasAsked(quiz.getQuestionList().get(0), quiz.getQuestionsHistory())){
-            // sprawdzamy dopoki pierwsze pytanie z quizu nie bylo jeszcze zadane
             List<QuestionHistory> questionsHistory = quiz.getQuestionsHistory();
             Question question = quiz.getQuestionList().get(0);
-            // zmienne pomocnicze
-            // dla kazdego pytania ktore bylo zadane:
             for(QuestionHistory questionHistory: questionsHistory){
-                // znajdujemy to samo pytanie
                 if(question.getText().equals(questionService.findById(questionHistory.getQuestionId()).getText())){
-                    // pobieramy odpowiedzi ktore byly udzielone na to pytanie
                     List<Long> answerIds = questionHistory.getAnswerIds();
-                    // dla kazdej odpowiedzi z udzielonych odpowiedzi:
                     for(Long id: answerIds){
-                        // znajdujemy dany answer bo id mielismy
                         Answer answer = answerService.findAnswerById(id);
-                        // szukamy czy odpowiedz ta znajduje sie w pytaniu QL[0]
                         for(Answer answer1: question.getAnswers()){
-                            // jesli mamy te same odpowiedzi, to musimy udzielic answera z taka sama odpowiedzia
                             if(answer1.getText().equals(answer.getText())){
                                 answers.add(answer1);
                             }
@@ -116,7 +106,6 @@ public class AlgorithmServiceImpl implements AlgorithmService {
             quiz.getQuestionList().remove(0);
         }
         // tu skonczyc
-
 
         return quiz;
     }
@@ -139,9 +128,7 @@ public class AlgorithmServiceImpl implements AlgorithmService {
 
         for(String code: codes) {
             Optional<Profession> profession = professionService.findByCode(code);
-            if(profession.isPresent()){
-                professions.add(profession.get());
-            }
+            profession.ifPresent(professions::add);
         }
 
         return professions;

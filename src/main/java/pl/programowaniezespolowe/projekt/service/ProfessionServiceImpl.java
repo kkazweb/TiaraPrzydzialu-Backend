@@ -8,7 +8,7 @@ import pl.programowaniezespolowe.projekt.repository.ProfessionRepository;
 import java.util.Optional;
 
 @Service
-public class ProfessionServiceImpl implements ProfessionService {
+public class ProfessionServiceImpl {
 
     private ProfessionRepository professionRepository;
 

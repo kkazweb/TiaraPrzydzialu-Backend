@@ -1,10 +1,7 @@
 package pl.programowaniezespolowe.projekt.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.programowaniezespolowe.projekt.model.Answer;
-import pl.programowaniezespolowe.projekt.model.Question;
 import pl.programowaniezespolowe.projekt.model.Quiz;
 import pl.programowaniezespolowe.projekt.repository.AnswerRepository;
 import pl.programowaniezespolowe.projekt.repository.QuestionRepository;
@@ -12,11 +9,6 @@ import pl.programowaniezespolowe.projekt.service.AlgorithmServiceImpl;
 import pl.programowaniezespolowe.projekt.service.AnswerServiceImpl;
 import pl.programowaniezespolowe.projekt.service.QuestionServiceImpl;
 import pl.programowaniezespolowe.projekt.service.QuizServiceImpl;
-
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 @RestController
 @RequestMapping("/quiz")

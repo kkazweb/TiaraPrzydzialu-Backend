@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class QuizServiceImpl implements QuizService {
+public class QuizServiceImpl {
 
     private QuestionRepository questionRepository;
 
@@ -33,7 +33,7 @@ public class QuizServiceImpl implements QuizService {
         if(question1.isPresent()){
             Question question2 = question1.get();
             quiz.addQuestion(question2);
-        } // tu byly problemy z castowaniem typu Optional na typ Question
+        }
 
         quiz.removeFirstQuestion();
         if(questionRepository.existsByGroupCode(quiz.getGroupCodes().get(0))){

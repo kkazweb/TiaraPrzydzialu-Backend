@@ -5,8 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.programowaniezespolowe.projekt.model.Question;
 import pl.programowaniezespolowe.projekt.service.QuestionServiceImpl;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/api/questions")
 @CrossOrigin(origins = "*", allowedHeaders = "*")

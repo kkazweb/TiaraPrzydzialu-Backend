@@ -8,7 +8,7 @@ import pl.programowaniezespolowe.projekt.repository.AnswerRepository;
 import java.util.Optional;
 
 @Service
-public class AnswerServiceImpl implements AnswerService {
+public class AnswerServiceImpl {
 
     private AnswerRepository answerRepository;
 

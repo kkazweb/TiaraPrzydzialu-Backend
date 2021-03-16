@@ -6,10 +6,9 @@ import pl.programowaniezespolowe.projekt.model.Question;
 import pl.programowaniezespolowe.projekt.repository.QuestionRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class QuestionServiceImpl implements QuestionService{
+public class QuestionServiceImpl {
 
     private QuestionRepository questionRepository;
 
