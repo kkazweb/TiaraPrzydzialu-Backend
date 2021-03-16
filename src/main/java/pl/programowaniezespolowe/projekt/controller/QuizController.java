@@ -14,6 +14,7 @@ import pl.programowaniezespolowe.projekt.service.QuestionServiceImpl;
 import pl.programowaniezespolowe.projekt.service.QuizServiceImpl;
 
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,10 +47,9 @@ public class QuizController {
     }
 
 
-    @PostMapping("/test1")
-    public String test(@RequestBody String text){
-        System.out.println(text);
-        return text + "test2";
+    @ModelAttribute(name = "quiz")
+    public Quiz quiz(){
+        return new Quiz();
     }
 
 
