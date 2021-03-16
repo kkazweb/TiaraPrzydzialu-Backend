@@ -24,7 +24,7 @@ public class Answer {
     @NotNull
     private Long questionId;
 
-    @ElementCollection(targetClass = String.class)
+    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
     private List<String> addsGroupCodes;
 
 
