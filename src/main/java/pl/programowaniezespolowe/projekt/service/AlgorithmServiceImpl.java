@@ -34,12 +34,13 @@ public class AlgorithmServiceImpl implements AlgorithmService {
     public Quiz startQuiz(){
         Quiz quiz = new Quiz();
         Iterable<Question> currentList = questionService.findAllByGroupCode("start");
-        HashMap<Answer, Question> map = new HashMap<>();
         List<String> codes = new ArrayList<>();
         List<Long> answerIds = new ArrayList<>();
+        List<QuestionHistory> questionHistories = new ArrayList<>();
         quiz.setGroupCodes(codes);
         quiz.setQuestions(currentList);
         quiz.setAnswerIds(answerIds);
+        quiz.setQuestionsHistory(questionHistories);
         return quiz;
     }
 
