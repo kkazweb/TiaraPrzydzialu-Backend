@@ -16,17 +16,20 @@ public class AlgorithmServiceImpl implements AlgorithmService {
 
     private QuestionServiceImpl questionService;
 
-    private ProfessionServiceImpl professionService;
 
     private QuizServiceImpl quizService;
 
-    @Autowired
-    public AlgorithmServiceImpl(ProfessionServiceImpl professionService, AnswerServiceImpl answerService, QuestionServiceImpl questionService, QuizServiceImpl quizService) {
+    private ElementaryGroupServiceImpl elementaryGroupService;
+
+    public AlgorithmServiceImpl(AnswerServiceImpl answerService, QuestionServiceImpl questionService, QuizServiceImpl quizService, ElementaryGroupServiceImpl elementaryGroupService) {
         this.answerService = answerService;
         this.questionService = questionService;
         this.quizService = quizService;
-        this.professionService = professionService;
+        this.elementaryGroupService = elementaryGroupService;
     }
+
+    @Autowired
+
 
     public Quiz startQuiz(){
         Quiz quiz = new Quiz();
@@ -130,21 +133,21 @@ public class AlgorithmServiceImpl implements AlgorithmService {
         return false;
     }
 
-    public List<Profession> getProfessions(Quiz quiz){
+    public List<ElementaryGroup> getGroups(Quiz quiz){
         if(quiz.getQuestionList().size() > 0){
             System.out.println("Questionlist size > 0. Something went wrong.");
         }
         List<String> codes = quiz.getGroupCodes();
-        List<Profession> professions = new ArrayList<>();
+        List<ElementaryGroup> elementaryGroups = new ArrayList<>();
 
         for(String code: codes) {
-            Optional<Profession> profession = professionService.findByCode(code);
-            if(profession.isPresent()){
-                professions.add(profession.get());
+            Optional<ElementaryGroup> elementaryGroup = elementaryGroupService.findByCode(code);
+            if(elementaryGroup.isPresent()){
+                elementaryGroups.add(elementaryGroup.get());
             }
         }
 
-        return professions;
+        return elementaryGroups;
     }
 
 }

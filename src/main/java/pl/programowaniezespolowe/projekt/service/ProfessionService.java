@@ -1,4 +1,4 @@
-package pl.programowaniezespolowe.projekt.service;
-
-public interface ProfessionService {
-}
+//package pl.programowaniezespolowe.projekt.service;
+//
+//public interface ProfessionService {
+//}
