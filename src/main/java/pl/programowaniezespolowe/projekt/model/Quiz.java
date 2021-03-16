@@ -34,7 +34,7 @@ public class Quiz {
     public void updateQuestionsHistory(Question question, List<Long> answerIds){
         QuestionHistory questionHistory = new QuestionHistory();
         questionHistory.setAnswerIds(answerIds);
-        questionHistory.setQuestionId(question);
+        questionHistory.setQuestionId(question.getId());
         questionsHistory.add(questionHistory);
     }
 
