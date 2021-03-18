@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import pl.programowaniezespolowe.projekt.model.Answer;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface AnswerRepository extends CrudRepository<Answer, Long> {

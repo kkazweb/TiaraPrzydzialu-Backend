@@ -34,4 +34,5 @@ public class Question {
         this.similarQuestionIds.add(id);
     }
 
+    private Boolean multipleChoice;
 }

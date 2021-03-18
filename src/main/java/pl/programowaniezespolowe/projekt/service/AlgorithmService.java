@@ -5,38 +5,37 @@ import org.springframework.stereotype.Service;
 import pl.programowaniezespolowe.projekt.model.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AlgorithmServiceImpl {
+public class AlgorithmService {
 
-    private AnswerServiceImpl answerService;
+    private final AnswerService answerService;
 
-    private QuestionServiceImpl questionService;
+    private final QuestionService questionService;
 
-    private ProfessionServiceImpl professionService;
+    private final ElementaryGroupService elementaryGroupService;
 
-    private QuizServiceImpl quizService;
-
-    @Autowired
-    public AlgorithmServiceImpl(ProfessionServiceImpl professionService, AnswerServiceImpl answerService, QuestionServiceImpl questionService, QuizServiceImpl quizService) {
+    public AlgorithmService(AnswerService answerService, QuestionService questionService, ElementaryGroupService elementaryGroupService) {
         this.answerService = answerService;
         this.questionService = questionService;
-        this.quizService = quizService;
-        this.professionService = professionService;
+        this.elementaryGroupService = elementaryGroupService;
     }
+
+    @Autowired
+
 
     public Quiz startQuiz(){
         Quiz quiz = new Quiz();
         Iterable<Question> currentList = questionService.findAllByGroupCode("start");
-        HashMap<Answer, Question> map = new HashMap<>();
         List<String> codes = new ArrayList<>();
         List<Long> answerIds = new ArrayList<>();
+        List<QuestionHistory> questionHistories = new ArrayList<>();
         quiz.setGroupCodes(codes);
         quiz.setQuestions(currentList);
         quiz.setAnswerIds(answerIds);
+        quiz.setQuestionsHistory(questionHistories);
         return quiz;
     }
 
@@ -119,19 +118,19 @@ public class AlgorithmServiceImpl {
         return false;
     }
 
-    public List<Profession> getProfessions(Quiz quiz){
+    public List<ElementaryGroup> getGroups(Quiz quiz){
         if(quiz.getQuestionList().size() > 0){
             System.out.println("Questionlist size > 0. Something went wrong.");
         }
         List<String> codes = quiz.getGroupCodes();
-        List<Profession> professions = new ArrayList<>();
+        List<ElementaryGroup> elementaryGroups = new ArrayList<>();
 
         for(String code: codes) {
-            Optional<Profession> profession = professionService.findByCode(code);
-            profession.ifPresent(professions::add);
+            Optional<ElementaryGroup> elementaryGroup = elementaryGroupService.findByCode(code);
+            elementaryGroup.ifPresent(elementaryGroups::add);
         }
 
-        return professions;
+        return elementaryGroups;
     }
 
 }

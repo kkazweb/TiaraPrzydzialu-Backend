@@ -40,14 +40,4 @@ class QuizControllerTest {
         assertNotNull(webApplicationContext.getBean("quizController"));
     }
 
-    @Test
-    void verifyingIfTestShowsTextPlusTest2() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("quiz/test1?text={text}"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(view().name("index"))
-                .andDo(print())
-                .andReturn();
-
-
-    }
 }

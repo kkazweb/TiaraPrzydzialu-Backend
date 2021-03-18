@@ -1,31 +1,31 @@
 package pl.programowaniezespolowe.projekt.model;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Answer {
+public class ElementaryGroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String text;
+    private String code;
 
-    @NotNull
-    private Long questionId;
+    private String name;
 
-    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
-    private List<String> addsGroupCodes;
+    @OneToOne
+    private ElementaryGroup parentGroup; // id kod.length - 1
 
+    @Column(length = 1024)
+    private String synthesis;
 
-
+    @Column(length = 5000)
+    private String tasks;
 }

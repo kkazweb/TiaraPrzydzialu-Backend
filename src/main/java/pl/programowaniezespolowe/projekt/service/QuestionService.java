@@ -7,15 +7,23 @@ import pl.programowaniezespolowe.projekt.model.Question;
 import pl.programowaniezespolowe.projekt.repository.QuestionRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-public class QuestionServiceImpl {
+public class QuestionService {
 
     private final QuestionRepository questionRepository;
 
     public Question findById(Long id) {
-        return questionRepository.findById(id).orElseThrow(() -> new RuntimeException("Question not found"));
+        //return questionRepository.findById(id).orElseThrow(() -> new RuntimeException("Question not found"));
+        Optional<Question> question = questionRepository.findById(id);
+        if(question.isPresent()){
+            return question.get();
+        }
+        else{
+            throw new RuntimeException("Question not found");
+        }
     }
 
     public Iterable<Question> findAll(){
@@ -31,7 +39,8 @@ public class QuestionServiceImpl {
     }
 
     public Question findQuestionByGroupCode(String code){
-        return questionRepository.findQuestionByGroupCode(code);
+        return questionRepository.findQuestionByGroupCode(code).orElseThrow(() -> new RuntimeException("Question not found"));
+//        return questionRepository.findQuestionByGroupCode(code);
     }
 
     public void checkForSimilarQuestions(){

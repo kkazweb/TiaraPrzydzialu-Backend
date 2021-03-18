@@ -8,7 +8,7 @@ import pl.programowaniezespolowe.projekt.repository.AnswerRepository;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-public class AnswerServiceImpl {
+public class AnswerService {
 
     private final AnswerRepository answerRepository;
 

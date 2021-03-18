@@ -3,17 +3,17 @@ package pl.programowaniezespolowe.projekt.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.programowaniezespolowe.projekt.model.Question;
-import pl.programowaniezespolowe.projekt.service.QuestionServiceImpl;
+import pl.programowaniezespolowe.projekt.service.QuestionService;
 
 @RestController
 @RequestMapping("/api/questions")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class QuestionController {
 
-    private final QuestionServiceImpl questionService;
+    private final QuestionService questionService;
 
     @Autowired
-    public QuestionController(QuestionServiceImpl questionService) {
+    public QuestionController(QuestionService questionService) {
         this.questionService = questionService;
     }
 

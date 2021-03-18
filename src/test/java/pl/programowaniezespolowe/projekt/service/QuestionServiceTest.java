@@ -9,16 +9,16 @@ import pl.programowaniezespolowe.projekt.repository.QuestionRepository;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
-class QuestionServiceImplTest {
+class QuestionServiceTest {
 
     @Autowired
     private QuestionRepository questionRepository;
 
-    private QuestionServiceImpl questionService;
+    private QuestionService questionService;
 
     @BeforeEach
     void setUp(){
-        questionService = new QuestionServiceImpl(questionRepository);
+        questionService = new QuestionService(questionRepository);
     }
 
     @Test
