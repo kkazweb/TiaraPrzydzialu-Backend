@@ -1,5 +1,6 @@
 package pl.programowaniezespolowe.projekt.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.programowaniezespolowe.projekt.model.Question;
@@ -8,14 +9,10 @@ import pl.programowaniezespolowe.projekt.repository.QuestionRepository;
 import java.util.List;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class QuestionServiceImpl {
 
-    private QuestionRepository questionRepository;
-
-    @Autowired
-    public QuestionServiceImpl(QuestionRepository questionRepository) {
-        this.questionRepository = questionRepository;
-    }
+    private final QuestionRepository questionRepository;
 
     public Question findById(Long id) {
         return questionRepository.findById(id).orElseThrow(() -> new RuntimeException("Question not found"));
@@ -29,10 +26,6 @@ public class QuestionServiceImpl {
         return questionRepository.findQuestionsByGroupCode(code);
     }
 
-    public void deleteById(Long id){
-        questionRepository.deleteById(id);
-    }
-
     public Iterable<Question> findAllByGroupCode(String code){
         return questionRepository.findQuestionsByGroupCode(code);
     }
@@ -44,10 +37,9 @@ public class QuestionServiceImpl {
     public void checkForSimilarQuestions(){
         System.out.println("Number of Q-s in DB:");
         int n = questionRepository.findAll().size();
-        long k = (long) n;
-        System.out.println(k);
+        System.out.println((long) n);
         System.out.println(n);
-        boolean tab[][] = new boolean[n+1][n+1];
+        boolean[][] tab = new boolean[n+1][n+1];
         for(int i = 0; i <= n; i++){
             for(int j = 0; j <= n; j++){
                 tab[i][j] = false;
