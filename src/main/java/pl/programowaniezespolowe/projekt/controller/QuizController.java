@@ -1,5 +1,6 @@
 package pl.programowaniezespolowe.projekt.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.programowaniezespolowe.projekt.model.Quiz;
@@ -8,14 +9,10 @@ import pl.programowaniezespolowe.projekt.service.AlgorithmService;
 @RestController
 @RequestMapping("/quiz")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class QuizController {
 
     private final AlgorithmService algorithmService;
-
-    @Autowired
-    public QuizController(AlgorithmService algorithmService) {
-        this.algorithmService = algorithmService;
-    }
 
     @ModelAttribute(name = "quiz")
     public Quiz quiz(){
