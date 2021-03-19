@@ -63,7 +63,4 @@ public class QuizController {
         return this.algorithmService.showForm(quiz);
     }
 
-
-
-    // powinnismy przeniesc logike z kontrolerow do serwisow
 }
