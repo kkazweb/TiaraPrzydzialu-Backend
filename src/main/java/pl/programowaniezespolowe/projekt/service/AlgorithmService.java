@@ -23,9 +23,6 @@ public class AlgorithmService {
         this.elementaryGroupService = elementaryGroupService;
     }
 
-    @Autowired
-
-
     public Quiz startQuiz(){
         Quiz quiz = new Quiz();
         Iterable<Question> currentList = questionService.findAllByGroupCode("start");
@@ -63,13 +60,18 @@ public class AlgorithmService {
         if(quiz.getQuestionList().size() > 0)
 
             quiz.getQuestionList().remove(0);
-        for(int i = 0; i < answers.size(); i++){
-            for(int j = 0; j < answers.get(i).getAddsGroupCodes().size(); j++){
-                Question question = questionService.findQuestionByGroupCode(answers.get(i).getAddsGroupCodes().get(j));
-                quiz.addQuestion(question);
-                if(questionService.findQuestionsByGroupCode(answers.get(i).getAddsGroupCodes().get(j)).size() == 0){
-                    quiz.addCode(answers.get(i).getAddsGroupCodes().get(j));
+        for (Answer value : answers) {
+            for (int j = 0; j < value.getAddsGroupCodes().size(); j++) {
+                Optional<Question> optionalQuestion = questionService.findQuestionByGroupCode(value.getAddsGroupCodes().get(j));
+                if (optionalQuestion.isEmpty()) {
+                    // to oznacza ze mamy grupe elementarna lub nie ma question w bazie
+                    List<String> groupCodes1 = quiz.getGroupCodes();
+                    groupCodes1.add(value.getAddsGroupCodes().get(j));
+                    quiz.setGroupCodes(groupCodes1);
+                } else {
+                    quiz.addQuestion(optionalQuestion.get());
                 }
+
             }
         }
         System.out.println(quiz.getQuestionList());
@@ -92,13 +94,20 @@ public class AlgorithmService {
                     }
                 }
             }
-            for(int i = 0; i < answers.size(); i++){
-                for(int j = 0; j < answers.get(i).getAddsGroupCodes().size(); j++){
-                    Question question1 = questionService.findQuestionByGroupCode(answers.get(i).getAddsGroupCodes().get(j));
-                    quiz.addQuestion(question1);
-                    if(questionService.findQuestionsByGroupCode(answers.get(i).getAddsGroupCodes().get(j)).size() == 0){
-                        quiz.addCode(answers.get(i).getAddsGroupCodes().get(j));
+
+            for (Answer answer : answers) {
+                for (int j = 0; j < answer.getAddsGroupCodes().size(); j++) {
+                    Optional<Question> optionalQuestion = questionService.findQuestionByGroupCode(answer.getAddsGroupCodes().get(j));
+                    if (optionalQuestion.isEmpty()) {
+                        // to oznacza ze mamy grupe elementarna lub nie ma question w bazie
+                        List<String> groupCodes1 = quiz.getGroupCodes();
+                        groupCodes1.add(answer.getAddsGroupCodes().get(j));
+                        quiz.setGroupCodes(groupCodes1);
+                    } else {
+                        quiz.addQuestion(optionalQuestion.get());
                     }
+
+
                 }
             }
             answers.clear();

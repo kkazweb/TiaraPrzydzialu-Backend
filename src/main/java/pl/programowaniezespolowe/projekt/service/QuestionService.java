@@ -38,10 +38,12 @@ public class QuestionService {
         return questionRepository.findQuestionsByGroupCode(code);
     }
 
-    public Question findQuestionByGroupCode(String code){
-        return questionRepository.findQuestionByGroupCode(code).orElseThrow(() -> new RuntimeException("Question not found"));
+    public Optional<Question> findQuestionByGroupCode(String code){
+        System.out.println("trying to find question code " + code);
+        return questionRepository.findQuestionByGroupCode(code);
 //        return questionRepository.findQuestionByGroupCode(code);
     }
+
 
     public void checkForSimilarQuestions(){
         System.out.println("Number of Q-s in DB:");
