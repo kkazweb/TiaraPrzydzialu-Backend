@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class QuestionHistory {
 
-    private Long questionId; // questonId
+    private Long questionId;
 
     private List<Long> answerIds;
 }

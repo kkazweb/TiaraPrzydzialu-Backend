@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockServletContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -14,10 +15,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import pl.programowaniezespolowe.projekt.model.Question;
 
+import javax.servlet.ServletContext;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @SpringBootTest
 class QuestionControllerTest {
@@ -34,12 +38,21 @@ class QuestionControllerTest {
     }
 
     @Test
+    void preliminaryTest() {
+        ServletContext servletContext = webApplicationContext.getServletContext();
+
+        assertNotNull(servletContext);
+        assertTrue(servletContext instanceof MockServletContext);
+        assertNotNull(webApplicationContext.getBean("questionController"));
+    }
+
+    @Test
     void thereAreQuestionsInDataBase() throws Exception {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/api/questions/all"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
-        List<Question> result = objectMapper.readValue(
+        Iterable<Question> result = objectMapper.readValue(
                 mvcResult.getResponse().getContentAsString(),
                 new TypeReference<>() {}
                 );
@@ -60,6 +73,14 @@ class QuestionControllerTest {
 
         assertThat(result.getAnswers()).hasSize(8);
         assertThat(result.getText()).isEqualTo("Wybierz przedmioty które lubisz:");
+    }
+
+    @Test
+    void verifyingIfQuestionControllerChecksSimilarQuestions() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/api/questions/similarquestions"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(print())
+                .andReturn();
     }
 
 }
