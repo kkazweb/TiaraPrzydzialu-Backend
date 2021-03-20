@@ -38,7 +38,7 @@ public class QuestionService {
         return questionRepository.findQuestionsByGroupCode(code);
     }
 
-    public Optional<Question> findQuestionByGroupCode(String code){
+    public Optional<List<Question>> findQuestionByGroupCode(String code){
         System.out.println("trying to find question code " + code);
         return questionRepository.findQuestionByGroupCode(code);
 //        return questionRepository.findQuestionByGroupCode(code);

@@ -62,14 +62,14 @@ public class AlgorithmService {
             quiz.getQuestionList().remove(0);
         for (Answer value : answers) {
             for (int j = 0; j < value.getAddsGroupCodes().size(); j++) {
-                Optional<Question> optionalQuestion = questionService.findQuestionByGroupCode(value.getAddsGroupCodes().get(j));
+                Optional<List<Question>> optionalQuestion = questionService.findQuestionByGroupCode(value.getAddsGroupCodes().get(j));
                 if (optionalQuestion.isEmpty()) {
                     // to oznacza ze mamy grupe elementarna lub nie ma question w bazie
                     List<String> groupCodes1 = quiz.getGroupCodes();
                     groupCodes1.add(value.getAddsGroupCodes().get(j));
                     quiz.setGroupCodes(groupCodes1);
                 } else {
-                    quiz.addQuestion(optionalQuestion.get());
+                    optionalQuestion.get().forEach(quiz::addQuestion);
                 }
 
             }
@@ -97,14 +97,14 @@ public class AlgorithmService {
 
             for (Answer answer : answers) {
                 for (int j = 0; j < answer.getAddsGroupCodes().size(); j++) {
-                    Optional<Question> optionalQuestion = questionService.findQuestionByGroupCode(answer.getAddsGroupCodes().get(j));
+                    Optional<List<Question>> optionalQuestion = questionService.findQuestionByGroupCode(answer.getAddsGroupCodes().get(j));
                     if (optionalQuestion.isEmpty()) {
                         // to oznacza ze mamy grupe elementarna lub nie ma question w bazie
                         List<String> groupCodes1 = quiz.getGroupCodes();
                         groupCodes1.add(answer.getAddsGroupCodes().get(j));
                         quiz.setGroupCodes(groupCodes1);
                     } else {
-                        quiz.addQuestion(optionalQuestion.get());
+                        optionalQuestion.get().forEach(quiz::addQuestion);
                     }
 
 
