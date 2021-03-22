@@ -110,9 +110,7 @@ public class AlgorithmService {
             }
             answers.clear();
             quiz.getQuestionList().remove(0);
-            if(quiz.getQuestionList().isEmpty()) {
-                break;
-            }
+
         }
         // tu skonczyc
 
