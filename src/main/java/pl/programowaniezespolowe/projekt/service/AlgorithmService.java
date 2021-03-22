@@ -106,12 +106,13 @@ public class AlgorithmService {
                     } else {
                         optionalQuestion.get().forEach(quiz::addQuestion);
                     }
-
-
                 }
             }
             answers.clear();
             quiz.getQuestionList().remove(0);
+            if(quiz.getQuestionList().isEmpty()) {
+                break;
+            }
         }
         // tu skonczyc
 
