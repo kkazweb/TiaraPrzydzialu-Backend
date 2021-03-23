@@ -58,8 +58,8 @@ public class AlgorithmService {
         quiz.getQuestionsHistory().add(questionHistory1);
 
         if(quiz.getQuestionList().size() > 0)
-
             quiz.getQuestionList().remove(0);
+
         for (Answer value : answers) {
             for (int j = 0; j < value.getAddsGroupCodes().size(); j++) {
                 Optional<List<Question>> optionalQuestion = questionService.findQuestionByGroupCode(value.getAddsGroupCodes().get(j));
@@ -78,7 +78,7 @@ public class AlgorithmService {
         quiz.getAnswerIds().clear();
         answers.clear();
 
-        while(checkIfQuestionWasAsked(quiz.getQuestionList().get(0), quiz.getQuestionsHistory())){
+        while(checkIfQuestionWasAsked(quiz.getQuestionList(), quiz.getQuestionsHistory())){
             List<QuestionHistory> questionsHistory = quiz.getQuestionsHistory();
             Question question = quiz.getQuestionList().get(0);
             for(QuestionHistory questionHistory: questionsHistory){
@@ -117,7 +117,10 @@ public class AlgorithmService {
         return quiz;
     }
 
-    public boolean checkIfQuestionWasAsked(Question question, List<QuestionHistory> questionsHistory){
+    public boolean checkIfQuestionWasAsked(List<Question> questions, List<QuestionHistory> questionsHistory){
+        if(questions.size() == 0)
+            return false;
+        Question question = questions.get(0);
         for(QuestionHistory questionHistory: questionsHistory){
             if(question.getText().equals(questionService.findById(questionHistory.getQuestionId()).getText())){
                 return true;
