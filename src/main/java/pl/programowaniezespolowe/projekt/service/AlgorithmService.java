@@ -58,18 +58,18 @@ public class AlgorithmService {
         quiz.getQuestionsHistory().add(questionHistory1);
 
         if(quiz.getQuestionList().size() > 0)
-
             quiz.getQuestionList().remove(0);
+
         for (Answer value : answers) {
             for (int j = 0; j < value.getAddsGroupCodes().size(); j++) {
-                Optional<Question> optionalQuestion = questionService.findQuestionByGroupCode(value.getAddsGroupCodes().get(j));
+                Optional<List<Question>> optionalQuestion = questionService.findQuestionByGroupCode(value.getAddsGroupCodes().get(j));
                 if (optionalQuestion.isEmpty()) {
                     // to oznacza ze mamy grupe elementarna lub nie ma question w bazie
                     List<String> groupCodes1 = quiz.getGroupCodes();
                     groupCodes1.add(value.getAddsGroupCodes().get(j));
                     quiz.setGroupCodes(groupCodes1);
                 } else {
-                    quiz.addQuestion(optionalQuestion.get());
+                    optionalQuestion.get().forEach(quiz::addQuestion);
                 }
 
             }
@@ -78,7 +78,7 @@ public class AlgorithmService {
         quiz.getAnswerIds().clear();
         answers.clear();
 
-        while(checkIfQuestionWasAsked(quiz.getQuestionList().get(0), quiz.getQuestionsHistory())){
+        while(checkIfQuestionWasAsked(quiz.getQuestionList(), quiz.getQuestionsHistory())){
             List<QuestionHistory> questionsHistory = quiz.getQuestionsHistory();
             Question question = quiz.getQuestionList().get(0);
             for(QuestionHistory questionHistory: questionsHistory){
@@ -97,28 +97,30 @@ public class AlgorithmService {
 
             for (Answer answer : answers) {
                 for (int j = 0; j < answer.getAddsGroupCodes().size(); j++) {
-                    Optional<Question> optionalQuestion = questionService.findQuestionByGroupCode(answer.getAddsGroupCodes().get(j));
+                    Optional<List<Question>> optionalQuestion = questionService.findQuestionByGroupCode(answer.getAddsGroupCodes().get(j));
                     if (optionalQuestion.isEmpty()) {
                         // to oznacza ze mamy grupe elementarna lub nie ma question w bazie
                         List<String> groupCodes1 = quiz.getGroupCodes();
                         groupCodes1.add(answer.getAddsGroupCodes().get(j));
                         quiz.setGroupCodes(groupCodes1);
                     } else {
-                        quiz.addQuestion(optionalQuestion.get());
+                        optionalQuestion.get().forEach(quiz::addQuestion);
                     }
-
-
                 }
             }
             answers.clear();
             quiz.getQuestionList().remove(0);
+
         }
         // tu skonczyc
 
         return quiz;
     }
 
-    public boolean checkIfQuestionWasAsked(Question question, List<QuestionHistory> questionsHistory){
+    public boolean checkIfQuestionWasAsked(List<Question> questions, List<QuestionHistory> questionsHistory){
+        if(questions.size() == 0)
+            return false;
+        Question question = questions.get(0);
         for(QuestionHistory questionHistory: questionsHistory){
             if(question.getText().equals(questionService.findById(questionHistory.getQuestionId()).getText())){
                 return true;
