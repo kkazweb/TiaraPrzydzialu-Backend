@@ -11,12 +11,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/search")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class SearchController {
 
     private final SearchService searchService;
 
-    @GetMapping("/elementarygroups")
+    @PostMapping("/elementarygroups")
     List<ElementaryGroupForSearch> showAllGroupsContainingPhrase(@RequestBody String phrase){
         return searchService.listOfElementaryGroupsContainingPhrase(phrase);
     }
