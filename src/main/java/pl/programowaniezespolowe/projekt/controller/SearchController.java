@@ -27,7 +27,7 @@ public class SearchController {
         return searchService.listOfProfessionsContainingPhrase(phrase);
     }
 
-    @PostMapping("/professions/{letter}")
+    @GetMapping("/professions/{letter}")
     List<ProfessionForSearch> showAllProfessionsStartingWithLetter(@PathVariable String letter){
         return searchService.listOfProfessionsStartingWithLetter(letter);
     }
