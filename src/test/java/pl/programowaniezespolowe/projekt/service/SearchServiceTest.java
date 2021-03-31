@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.programowaniezespolowe.projekt.dto.ElementaryGroupForSearch;
+import pl.programowaniezespolowe.projekt.dto.ProfessionForSearch;
 import pl.programowaniezespolowe.projekt.repository.ElementaryGroupRepository;
+import pl.programowaniezespolowe.projekt.repository.ProfessionRepository;
 
 import java.util.List;
 
@@ -18,10 +20,12 @@ class SearchServiceTest {
 
     @Autowired
     private ElementaryGroupRepository elementaryGroupRepository;
+    @Autowired
+    private ProfessionRepository professionRepository;
 
     @BeforeEach
     void setUp(){
-        searchService = new SearchService(elementaryGroupRepository);
+        searchService = new SearchService(elementaryGroupRepository, professionRepository);
     }
 
     @Test
@@ -46,6 +50,18 @@ class SearchServiceTest {
     void listOfElementaryGroupsContainingWrongCodePhraseIsEmpty() {
         List<ElementaryGroupForSearch> groups = searchService.listOfElementaryGroupsContainingPhrase("0100");
         assertThat(groups).isEmpty();
+    }
+
+    @Test
+    void listOfProfessionsContainingNamePhraseExists() {
+        List<ProfessionForSearch> professions = searchService.listOfProfessionsContainingPhrase("sta");
+        assertThat(professions).isNotEmpty();
+    }
+
+    @Test
+    void listOfProfessionsContainingWrongNamePhraseIsEmpty() {
+        List<ProfessionForSearch> professions = searchService.listOfProfessionsContainingPhrase("aaa");
+        assertThat(professions).isEmpty();
     }
 
 }
