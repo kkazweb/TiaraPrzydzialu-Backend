@@ -24,16 +24,12 @@ public class SearchService {
         Locale polish = new Locale("pl_PL");
         Collator polishCollator = Collator.getInstance(polish);
 
-        List<ElementaryGroup> groups = elementaryGroupRepository.findAll().stream()
-                .filter(group -> groupCodeOrNameContains(group, phrase))
+        List<ElementaryGroup> groups = elementaryGroupRepository.findAllByNameContainsOrCodeContains(phrase, phrase)
+                .stream()
                 .sorted(Comparator.comparing(ElementaryGroup::getName, polishCollator))
                 .collect(Collectors.toList());
 
         return groups.stream().map(this::mapElementaryGroupForSearch).collect(Collectors.toList());
-    }
-
-    private boolean groupCodeOrNameContains(ElementaryGroup group, String phrase) {
-        return group.getName().contains(phrase) || group.getCode().contains(phrase);
     }
 
     private ElementaryGroupForSearch mapElementaryGroupForSearch(ElementaryGroup elementaryGroup) {

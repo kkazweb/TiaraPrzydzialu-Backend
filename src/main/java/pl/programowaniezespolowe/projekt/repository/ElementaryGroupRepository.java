@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface ElementaryGroupRepository extends CrudRepository<ElementaryGroup, Long> {
     Optional<ElementaryGroup> findByCode(String code);
     List<ElementaryGroup> findAll();
+    List<ElementaryGroup> findAllByNameContainsOrCodeContains(String name, String code);
 }
