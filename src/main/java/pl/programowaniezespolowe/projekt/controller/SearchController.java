@@ -10,13 +10,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/search")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class SearchController {
 
     private final SearchService searchService;
 
-    @GetMapping("/elementarygroups/{phrase}")
-    List<ElementaryGroupForSearch> showAllGroupsContainingPhrase(@PathVariable String phrase){
+    @PostMapping("/elementarygroups")
+    List<ElementaryGroupForSearch> showAllGroupsContainingPhrase(@RequestBody String phrase){
         return searchService.listOfElementaryGroupsContainingPhrase(phrase);
     }
 }
