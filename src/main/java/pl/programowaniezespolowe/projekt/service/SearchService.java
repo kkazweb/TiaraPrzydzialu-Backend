@@ -27,7 +27,8 @@ public class SearchService {
 
         Collator polishCollator = getPolishCollator();
 
-        List<ElementaryGroup> groups = elementaryGroupRepository.findAllByNameContainsIgnoreCaseOrCodeContainsIgnoreCase(phrase, phrase)
+        List<ElementaryGroup> groups = elementaryGroupRepository
+                .findAllByNameContainsIgnoreCaseOrCodeContainsIgnoreCase(phrase, phrase)
                 .stream()
                 .sorted(Comparator.comparing(ElementaryGroup::getName, polishCollator))
                 .collect(Collectors.toList());
@@ -47,7 +48,8 @@ public class SearchService {
 
         Collator polishCollator = getPolishCollator();
 
-        List<Profession> professions = professionRepository.findAllByNameContainsIgnoreCase(phrase)
+        List<Profession> professions = professionRepository
+                .findAllByNameContainsIgnoreCaseOrCodeStartsWith(phrase, phrase)
                 .stream()
                 .sorted(Comparator.comparing(Profession::getName, polishCollator))
                 .collect(Collectors.toList());
