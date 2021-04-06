@@ -4,11 +4,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.programowaniezespolowe.projekt.model.User;
-import pl.programowaniezespolowe.projekt.repository.UserRepository;
-import pl.programowaniezespolowe.projekt.service.UserDetailsService;
+import pl.programowaniezespolowe.projekt.service.UserDetailsServiceImpl;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -16,7 +14,7 @@ import java.util.Optional;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
 
-    private UserDetailsService userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
 
     @GetMapping("/users")
     public List<User> getAllUsers(){
@@ -24,7 +22,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public Optional<User> findUserById(@PathVariable Long id){
+    public User findUserById(@PathVariable Long id){
         return userDetailsService.findById(id);
     }
 }
