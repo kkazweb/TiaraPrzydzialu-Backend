@@ -1,10 +1,11 @@
 package pl.programowaniezespolowe.projekt.model;
 
-import javax.persistence.*;
+        import javax.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+        import lombok.AllArgsConstructor;
+        import lombok.Data;
+        import lombok.NoArgsConstructor;
 
 @Data
 @Entity
@@ -23,12 +24,17 @@ public class Profession {
     @OneToOne
     private Profession parentId; // id kod.length - 1
 
+    @Column(length = 5000)
     private String synthesis;
 
+    @Column(length = 5000)
     private String tasks;
 
+    @Column(length = 5000)
     private String additionalTasks;
 
     private String url;
+
+    private Boolean infoDoradca;
 
 }
