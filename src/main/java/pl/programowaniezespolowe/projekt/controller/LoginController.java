@@ -2,6 +2,7 @@ package pl.programowaniezespolowe.projekt.controller;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +20,7 @@ import pl.programowaniezespolowe.projekt.payload.request.SignupRequest;
 import pl.programowaniezespolowe.projekt.payload.response.JwtResponse;
 import pl.programowaniezespolowe.projekt.payload.response.MessageResponse;
 import pl.programowaniezespolowe.projekt.repository.UserRepository;
+import pl.programowaniezespolowe.projekt.service.LoginService;
 
 import javax.validation.Valid;
 import java.security.Security;
@@ -29,49 +31,18 @@ import java.util.List;
 @Controller
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class LoginController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private JwtUtils jwtUtils;
+    private final LoginService loginService;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest){
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
-        List<String> roles = new ArrayList<>();
-        roles.add("ROLE_USER");
-
-        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles));
+        return loginService.authenticateUser(loginRequest);
     }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignupRequest signupRequest){
-        if(userRepository.existsByUsername(signupRequest.getUsername())){
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
-        }
-
-        if(userRepository.existsByEmail(signupRequest.getEmail())){
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
-        }
-
-        User user = new User(signupRequest.getUsername(), signupRequest.getEmail(), passwordEncoder.encode(signupRequest.getPassword()));
-
-        userRepository.save(user);
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return loginService.registerUser(signupRequest);
     }
 }
