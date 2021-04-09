@@ -10,8 +10,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Data
@@ -30,10 +32,18 @@ public class User {
 
     private String password;
 
+    @ElementCollection(targetClass = Long.class)
+    private List<Long> quizHistoryIds;
+
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.quizHistoryIds = new ArrayList<>();
+    }
+
+    public void addQuizHistoryId(Long id){
+        quizHistoryIds.add(id);
     }
 
 }
