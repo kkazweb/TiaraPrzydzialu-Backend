@@ -33,4 +33,17 @@ public class CredentialsService {
         }
     }
 
+    public boolean changeEmail(Long userId, String passwordOld, String emailNew) throws Exception {
+        User user1 = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User with ID: " + userId + " not found - CredentialsService"));
+        if(passwordEncoder.matches(passwordOld, user1.getPassword())){
+            if(userRepository.existsByEmail(emailNew))
+                throw new Exception("Email is already in use.");
+            user1.setEmail(emailNew);
+            userRepository.save(user1);
+            return true;
+        }
+        else{
+            throw new Exception("Passwords do not match.");
+        }
+    }
 }
