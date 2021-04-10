@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -23,4 +24,5 @@ public class QuizHistory {
     @Column(length = 5000)
     private String quiz;
 
+    private UUID uuid;
 }

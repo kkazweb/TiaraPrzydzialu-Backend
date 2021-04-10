@@ -17,6 +17,7 @@ import pl.programowaniezespolowe.projekt.service.UserDetailsServiceImpl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/quizhistory")
@@ -61,5 +62,10 @@ public class QuizHistoryController {
         }else{
             throw new UsernameNotFoundException("Nie znaleziono uzytkownika z danym ID i username.");
         }
+    }
+
+    @GetMapping("/{uuid}")
+    private QuizHistory getQuizByUuid(@PathVariable UUID uuid){
+        return this.quizHistoryService.findByUuid(uuid);
     }
 }

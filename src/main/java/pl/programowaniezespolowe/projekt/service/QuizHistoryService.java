@@ -6,6 +6,7 @@ import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.ExpressionException;
 import org.springframework.stereotype.Service;
 import pl.programowaniezespolowe.projekt.configuration.AuthEntryPointJwt;
 import pl.programowaniezespolowe.projekt.model.Quiz;
@@ -17,6 +18,7 @@ import pl.programowaniezespolowe.projekt.repository.UserRepository;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class QuizHistoryService {
@@ -28,6 +30,10 @@ public class QuizHistoryService {
 
     @Autowired
     private UserRepository userRepository;
+
+    public QuizHistory findByUuid(UUID uuid){
+        return quizRepository.findByUuid(uuid).orElseThrow(() -> new ExpressionException("Quiz with UUID " + uuid + " not found."));
+    }
 
     public List<QuizHistory> findAllForUser(Long id){
         return quizRepository.findAllByUserId(id);
@@ -42,6 +48,7 @@ public class QuizHistoryService {
         QuizHistory quizHistory = new QuizHistory();
         quizHistory.setUserId(userId);
         quizHistory.setQuiz(s);
+        quizHistory.setUuid(UUID.randomUUID());
         Long id = quizRepository.save(quizHistory).getId();
         System.out.println("Saving with id: " + id);
         Optional<User> optionalUser = userRepository.findById(id);
@@ -56,6 +63,7 @@ public class QuizHistoryService {
         QuizHistory quizHistory = new QuizHistory();
         quizHistory.setUserId(userId);
         quizHistory.setQuiz(s);
+        quizHistory.setUuid(UUID.randomUUID());
         Long id = quizRepository.save(quizHistory).getId();
         System.out.println("Saving with id: " + id);
         Optional<User> optionalUser = userRepository.findById(userId);
