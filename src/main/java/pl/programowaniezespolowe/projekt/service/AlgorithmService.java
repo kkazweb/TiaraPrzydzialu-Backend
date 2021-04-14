@@ -1,6 +1,5 @@
 package pl.programowaniezespolowe.projekt.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.programowaniezespolowe.projekt.model.*;
 
@@ -91,6 +90,7 @@ public class AlgorithmService {
                                 answers.add(answer1);
                             }
                         }
+                        answers.add(answer);
                     }
                 }
             }
@@ -110,9 +110,7 @@ public class AlgorithmService {
             }
             answers.clear();
             quiz.getQuestionList().remove(0);
-
         }
-        // tu skonczyc
 
         return quiz;
     }
