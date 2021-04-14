@@ -3,9 +3,7 @@ package pl.programowaniezespolowe.projekt.service;
 import org.springframework.stereotype.Service;
 import pl.programowaniezespolowe.projekt.model.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AlgorithmService {
@@ -137,6 +135,16 @@ public class AlgorithmService {
         for(String code: codes) {
             Optional<ElementaryGroup> elementaryGroup = elementaryGroupService.findByCode(code);
             elementaryGroup.ifPresent(elementaryGroups::add);
+        }
+
+        elementaryGroups.sort(Comparator.comparing(ElementaryGroup::getCode));
+        int i = 1;
+        while(i < elementaryGroups.size()) {
+            if(elementaryGroups.get(i).getCode().equals(elementaryGroups.get(i - 1).getCode())){
+                elementaryGroups.remove(i);
+            } else {
+                i++;
+            }
         }
 
         return elementaryGroups;
