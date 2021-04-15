@@ -16,6 +16,7 @@ import pl.programowaniezespolowe.projekt.repository.QuizRepository;
 import pl.programowaniezespolowe.projekt.repository.UserRepository;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -57,6 +58,8 @@ public class QuizHistoryService {
             userRepository.save(optionalUser.get());
             System.out.println("Updating user: " + optionalUser.get());
         }
+        Date date = new Date();
+        quizHistory.setDate(date);
     }
 
     public void saveQuizFromString(Long userId, String s) {
@@ -72,6 +75,8 @@ public class QuizHistoryService {
             userRepository.save(optionalUser.get());
             System.out.println("Updating user: " + optionalUser.get());
         }
+        Date date = new Date();
+        quizHistory.setDate(date);
     }
 
     public Quiz fromJSONtoQuiz(String q) throws IOException, JsonProcessingException{

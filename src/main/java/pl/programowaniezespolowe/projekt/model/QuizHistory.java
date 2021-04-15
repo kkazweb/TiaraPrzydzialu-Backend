@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -25,4 +26,6 @@ public class QuizHistory {
     private String quiz;
 
     private UUID uuid;
+
+    private Date date;
 }
