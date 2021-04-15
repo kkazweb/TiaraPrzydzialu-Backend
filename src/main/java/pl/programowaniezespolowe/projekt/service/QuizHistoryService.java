@@ -50,6 +50,8 @@ public class QuizHistoryService {
         quizHistory.setUserId(userId);
         quizHistory.setQuiz(s);
         quizHistory.setUuid(UUID.randomUUID());
+        Date date = new Date();
+        quizHistory.setDate(date);
         Long id = quizRepository.save(quizHistory).getId();
         System.out.println("Saving with id: " + id);
         Optional<User> optionalUser = userRepository.findById(id);
@@ -58,8 +60,6 @@ public class QuizHistoryService {
             userRepository.save(optionalUser.get());
             System.out.println("Updating user: " + optionalUser.get());
         }
-        Date date = new Date();
-        quizHistory.setDate(date);
     }
 
     public void saveQuizFromString(Long userId, String s) {
@@ -67,6 +67,8 @@ public class QuizHistoryService {
         quizHistory.setUserId(userId);
         quizHistory.setQuiz(s);
         quizHistory.setUuid(UUID.randomUUID());
+        Date date = new Date();
+        quizHistory.setDate(date);
         Long id = quizRepository.save(quizHistory).getId();
         System.out.println("Saving with id: " + id);
         Optional<User> optionalUser = userRepository.findById(userId);
@@ -75,8 +77,7 @@ public class QuizHistoryService {
             userRepository.save(optionalUser.get());
             System.out.println("Updating user: " + optionalUser.get());
         }
-        Date date = new Date();
-        quizHistory.setDate(date);
+
     }
 
     public Quiz fromJSONtoQuiz(String q) throws IOException, JsonProcessingException{
