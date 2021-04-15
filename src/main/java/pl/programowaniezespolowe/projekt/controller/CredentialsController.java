@@ -5,6 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.programowaniezespolowe.projekt.payload.request.ChangeEmailRequest;
 import pl.programowaniezespolowe.projekt.payload.request.ChangePasswordRequest;
+import pl.programowaniezespolowe.projekt.payload.request.RemoveAccountRequest;
 import pl.programowaniezespolowe.projekt.service.CredentialsService;
 
 import javax.validation.Valid;
@@ -33,4 +34,13 @@ public class CredentialsController {
         }
         return "Nie zmieniono maila.";
     }
+
+    @PostMapping("/deleteaccount")
+    public String deleteaccount(@RequestBody RemoveAccountRequest removeAccountRequest) throws Exception {
+        if(this.credentialsService.deleteAccount(removeAccountRequest.getUserId(), removeAccountRequest.getOldPassword())){
+            return "Konto zostało usunięte.";
+        }
+        return "Nie usunięto konta.";
+    }
+
 }

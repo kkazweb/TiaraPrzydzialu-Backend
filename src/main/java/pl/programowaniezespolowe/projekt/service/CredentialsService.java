@@ -46,4 +46,15 @@ public class CredentialsService {
             throw new Exception("Passwords do not match.");
         }
     }
+
+    public boolean deleteAccount(Long userId, String passwordOld)  throws Exception {
+        User user1 = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User with ID: " + userId + " not found - CredentialsService"));
+        if(passwordEncoder.matches(passwordOld, user1.getPassword())){
+            userRepository.delete(user1);
+            return true;
+        }
+        else{
+            throw new Exception("Passwords do not match.");
+        }
+    }
 }
