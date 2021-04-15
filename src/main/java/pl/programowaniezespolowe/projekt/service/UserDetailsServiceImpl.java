@@ -35,4 +35,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Nie znaleziono uzytkownika o id: " + id));
         return user;
     }
+
 }
