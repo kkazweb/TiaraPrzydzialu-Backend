@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +46,9 @@ public class QuizHistoryController {
     }
 
     @PostMapping("/save")
+    @PreAuthorize("hasRole('USER')")
     private String saveQuizInHistory(@RequestBody QuizDTO quizDTO) throws IOException, JsonProcessingException{
+        System.out.println("SavingRequest");
         Quiz quiz = fromJSONToQuiz(quizDTO.getQuiz());
         if (quiz == null) {
             return "Nie dodano quizu.";
@@ -56,6 +59,7 @@ public class QuizHistoryController {
     }
 
     @PostMapping("/getuserhistory")
+    @PreAuthorize("hasRole('USER')")
     private List<QuizHistory> getHistoryForUser(@RequestBody HistoryRequest historyRequest){
         if(userDetailsService.findById(historyRequest.getUserId()).getUsername().equals(historyRequest.getUsername())){
             return this.quizHistoryService.findAllForUser(historyRequest.getUserId());

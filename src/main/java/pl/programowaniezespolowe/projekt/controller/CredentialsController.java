@@ -20,6 +20,7 @@ public class CredentialsController {
 
 
     @PostMapping("/changepassword")
+    @PreAuthorize("hasRole('USER')")
     public String changePassword(@RequestBody ChangePasswordRequest passwordRequest) throws Exception {
         if(this.credentialsService.changePassword(passwordRequest.getUserId(), passwordRequest.getOldPassword(), passwordRequest.getNewPassword())){
             return "Hasło zmienione pomyślnie.";
@@ -28,6 +29,7 @@ public class CredentialsController {
     }
 
     @PostMapping("/changeemail")
+    @PreAuthorize("hasRole('USER')")
     public String changeEmail(@RequestBody @Valid ChangeEmailRequest emailRequest) throws Exception {
         if(this.credentialsService.changeEmail(emailRequest.getUserId(), emailRequest.getOldPassword(), emailRequest.getEmailNew())){
             return "Email zmieniony pomyślnie.";
@@ -36,6 +38,7 @@ public class CredentialsController {
     }
 
     @PostMapping("/deleteaccount")
+    @PreAuthorize("hasRole('USER')")
     public String deleteaccount(@RequestBody RemoveAccountRequest removeAccountRequest) throws Exception {
         if(this.credentialsService.deleteAccount(removeAccountRequest.getUserId(), removeAccountRequest.getOldPassword())){
             return "Konto zostało usunięte.";
