@@ -80,7 +80,7 @@ public class QuizHistoryService {
 
     }
 
-    public Quiz fromJSONtoQuiz(String q) throws IOException, JsonProcessingException{
+    public Quiz fromJSONtoQuiz(String q){
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.readValue(q, Quiz.class); // jsonProcessingException

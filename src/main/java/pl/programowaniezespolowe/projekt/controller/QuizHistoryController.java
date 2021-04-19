@@ -30,12 +30,12 @@ public class QuizHistoryController {
     private final UserDetailsServiceImpl userDetailsService;
 
     @PostMapping("/toQuiz")
-    private Quiz fromJSONToQuiz(@RequestBody String q) throws IOException, JsonProcessingException {
+    private Quiz fromJSONToQuiz(@RequestBody String q){
         return this.quizHistoryService.fromJSONtoQuiz(q);
     }
 
     @PostMapping("/toString")
-    private String fromQuizToJSON(@RequestBody Quiz quiz) throws IOException, JsonProcessingException{
+    private String fromQuizToJSON(@RequestBody Quiz quiz) throws IOException{
         return this.quizHistoryService.fromQuizToJson(quiz);
     }
 
@@ -45,7 +45,7 @@ public class QuizHistoryController {
     }
 
     @PostMapping("/save")
-    private String saveQuizInHistory(@RequestBody QuizDTO quizDTO) throws IOException, JsonProcessingException{
+    private String saveQuizInHistory(@RequestBody QuizDTO quizDTO){
         Quiz quiz = fromJSONToQuiz(quizDTO.getQuiz());
         if (quiz == null) {
             return "Nie dodano quizu.";
