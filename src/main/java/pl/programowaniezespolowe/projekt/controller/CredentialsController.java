@@ -20,7 +20,7 @@ public class CredentialsController {
 
 
     @PostMapping("/changepassword")
-    public String changePassword(@RequestBody ChangePasswordRequest passwordRequest) throws Exception {
+    public String changePassword(@RequestBody @Valid ChangePasswordRequest passwordRequest){
         if(this.credentialsService.changePassword(passwordRequest.getUserId(), passwordRequest.getOldPassword(), passwordRequest.getNewPassword())){
             return "Hasło zmienione pomyślnie.";
         }
@@ -28,7 +28,7 @@ public class CredentialsController {
     }
 
     @PostMapping("/changeemail")
-    public String changeEmail(@RequestBody @Valid ChangeEmailRequest emailRequest) throws Exception {
+    public String changeEmail(@RequestBody @Valid ChangeEmailRequest emailRequest){
         if(this.credentialsService.changeEmail(emailRequest.getUserId(), emailRequest.getOldPassword(), emailRequest.getEmailNew())){
             return "Email zmieniony pomyślnie.";
         }
@@ -36,7 +36,7 @@ public class CredentialsController {
     }
 
     @PostMapping("/deleteaccount")
-    public String deleteaccount(@RequestBody RemoveAccountRequest removeAccountRequest) throws Exception {
+    public String deleteaccount(@RequestBody RemoveAccountRequest removeAccountRequest){
         if(this.credentialsService.deleteAccount(removeAccountRequest.getUserId(), removeAccountRequest.getOldPassword())){
             return "Konto zostało usunięte.";
         }
