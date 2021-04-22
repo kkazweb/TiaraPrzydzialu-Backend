@@ -2,9 +2,11 @@ package pl.programowaniezespolowe.projekt.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.programowaniezespolowe.projekt.configuration.JwtUtils;
 import pl.programowaniezespolowe.projekt.model.User;
 import pl.programowaniezespolowe.projekt.payload.request.LoginRequest;
 import pl.programowaniezespolowe.projekt.repository.UserRepository;
@@ -13,10 +15,13 @@ import pl.programowaniezespolowe.projekt.repository.UserRepository;
 public class CredentialsService {
 
     @Autowired
-    private LoginService loginService;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtUtils jwtUtils;
 
     @Autowired
     private UserRepository userRepository;
