@@ -47,6 +47,7 @@ public class AlgorithmService {
         System.out.println(answers);
         QuestionHistory questionHistory1 = new QuestionHistory();
         questionHistory1.setQuestionId(quiz.getQuestionList().get(0).getId());
+        questionHistory1.setText(quiz.getQuestionList().get(0).getText());
         List<Long> answerIds1 = new ArrayList<>();
         for(Answer answer: answers){
             answerIds1.add(answer.getId());
@@ -79,7 +80,7 @@ public class AlgorithmService {
             List<QuestionHistory> questionsHistory = quiz.getQuestionsHistory();
             Question question = quiz.getQuestionList().get(0);
             for(QuestionHistory questionHistory: questionsHistory){
-                if(question.getText().equals(questionService.findById(questionHistory.getQuestionId()).getText())){
+                if(question.getText().equals(questionHistory.getText())){
                     List<Long> answerIds = questionHistory.getAnswerIds();
                     for(Long id: answerIds){
                         Answer answer = answerService.findAnswerById(id);
@@ -118,7 +119,7 @@ public class AlgorithmService {
             return false;
         Question question = questions.get(0);
         for(QuestionHistory questionHistory: questionsHistory){
-            if(question.getText().equals(questionService.findById(questionHistory.getQuestionId()).getText())){
+            if(question.getText().equals(questionHistory.getText())){
                 return true;
             }
         }
