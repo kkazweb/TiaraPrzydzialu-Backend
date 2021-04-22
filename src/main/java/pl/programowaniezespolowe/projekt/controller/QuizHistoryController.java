@@ -31,23 +31,23 @@ public class QuizHistoryController {
     private final UserDetailsServiceImpl userDetailsService;
 
     @PostMapping("/toQuiz")
-    private Quiz fromJSONToQuiz(@RequestBody String q) throws IOException, JsonProcessingException {
+    public Quiz fromJSONToQuiz(@RequestBody String q) throws IOException, JsonProcessingException {
         return this.quizHistoryService.fromJSONtoQuiz(q);
     }
 
     @PostMapping("/toString")
-    private String fromQuizToJSON(@RequestBody Quiz quiz) throws IOException, JsonProcessingException{
+    public String fromQuizToJSON(@RequestBody Quiz quiz) throws IOException, JsonProcessingException{
         return this.quizHistoryService.fromQuizToJson(quiz);
     }
 
     @GetMapping("/all")
-    private List<QuizHistory> findAll(){
+    public List<QuizHistory> findAll(){
         return this.quizHistoryService.findAll();
     }
 
     @PostMapping("/save")
     @PreAuthorize("hasRole('USER')")
-    private String saveQuizInHistory(@RequestBody QuizDTO quizDTO) throws IOException, JsonProcessingException{
+    public String saveQuizInHistory(@RequestBody QuizDTO quizDTO) throws IOException, JsonProcessingException{
         System.out.println("SavingRequest");
         Quiz quiz = fromJSONToQuiz(quizDTO.getQuiz());
         if (quiz == null) {
@@ -60,7 +60,7 @@ public class QuizHistoryController {
 
     @PostMapping("/getuserhistory")
     @PreAuthorize("hasRole('USER')")
-    private List<QuizHistory> getHistoryForUser(@RequestBody HistoryRequest historyRequest){
+    public List<QuizHistory> getHistoryForUser(@RequestBody HistoryRequest historyRequest){
         if(userDetailsService.findById(historyRequest.getUserId()).getUsername().equals(historyRequest.getUsername())){
             return this.quizHistoryService.findAllForUser(historyRequest.getUserId());
         }else{
@@ -69,7 +69,7 @@ public class QuizHistoryController {
     }
 
     @GetMapping("/{uuid}")
-    private QuizHistory getQuizByUuid(@PathVariable UUID uuid){
+    public QuizHistory getQuizByUuid(@PathVariable UUID uuid){
         return this.quizHistoryService.findByUuid(uuid);
     }
 }
