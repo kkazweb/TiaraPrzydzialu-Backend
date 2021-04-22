@@ -26,7 +26,7 @@ public class CredentialsService {
     @Autowired
     private UserRepository userRepository;
 
-    public boolean changePassword(Long userId, String passwordOld, String passwordNew) throws Exception {
+    public boolean changePassword(Long userId, String passwordOld, String passwordNew){
         User user1 = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User with ID: " + userId + " not found - CredentialsService"));
         if(passwordEncoder.matches(passwordOld, user1.getPassword())){
             user1.setPassword(passwordEncoder.encode(passwordNew));
@@ -34,32 +34,51 @@ public class CredentialsService {
             return true;
         }
         else{
-            throw new Exception("Passwords do not match.");
+            try {
+                throw new Exception("Passwords do not match.");
+            } catch (Exception e){
+                System.out.println(e.toString() + " UserID: " + userId + " passwordOld: " + passwordOld + " passwordNew:" + passwordNew);
+            }
         }
+        return false;
     }
 
-    public boolean changeEmail(Long userId, String passwordOld, String emailNew) throws Exception {
+    public boolean changeEmail(Long userId, String passwordOld, String emailNew){
         User user1 = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User with ID: " + userId + " not found - CredentialsService"));
-        if(passwordEncoder.matches(passwordOld, user1.getPassword())){
-            if(userRepository.existsByEmail(emailNew))
-                throw new Exception("Email is already in use.");
-            user1.setEmail(emailNew);
-            userRepository.save(user1);
-            return true;
-        }
-        else{
+        try {
+            if (passwordEncoder.matches(passwordOld, user1.getPassword())) {
+                try {
+                    if (userRepository.existsByEmail(emailNew))
+                        throw new Exception("Email is already in use.");
+                } catch (Exception e) {
+                    System.out.println(e.toString() + " UserID: " + userId + " email: " + emailNew);
+                    return false;
+                }
+                user1.setEmail(emailNew);
+                userRepository.save(user1);
+                return true;
+            }
             throw new Exception("Passwords do not match.");
+        } catch (Exception e){
+            System.out.println(e.toString() + " UserID: " + userId + " email: " + emailNew);
         }
+        return false;
     }
 
-    public boolean deleteAccount(Long userId, String passwordOld)  throws Exception {
+    public boolean deleteAccount(Long userId, String passwordOld){
         User user1 = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User with ID: " + userId + " not found - CredentialsService"));
         if(passwordEncoder.matches(passwordOld, user1.getPassword())){
             userRepository.delete(user1);
             return true;
         }
         else{
-            throw new Exception("Passwords do not match.");
+            try {
+                throw new Exception("Passwords do not match.");
+            }
+            catch (Exception e){
+                System.out.println(e.toString() + " userId: " + userId + " passwordOld: " + passwordOld);
+            }
         }
+        return false;
     }
 }

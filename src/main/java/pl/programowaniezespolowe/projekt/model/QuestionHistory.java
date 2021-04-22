@@ -12,6 +12,7 @@ import java.util.List;
 public class QuestionHistory {
 
     private Long questionId;
+    private String text;
 
     private List<Long> answerIds;
 }

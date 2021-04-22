@@ -1,12 +1,9 @@
 package pl.programowaniezespolowe.projekt.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.programowaniezespolowe.projekt.model.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AlgorithmService {
@@ -50,6 +47,7 @@ public class AlgorithmService {
         System.out.println(answers);
         QuestionHistory questionHistory1 = new QuestionHistory();
         questionHistory1.setQuestionId(quiz.getQuestionList().get(0).getId());
+        questionHistory1.setText(quiz.getQuestionList().get(0).getText());
         List<Long> answerIds1 = new ArrayList<>();
         for(Answer answer: answers){
             answerIds1.add(answer.getId());
@@ -82,7 +80,7 @@ public class AlgorithmService {
             List<QuestionHistory> questionsHistory = quiz.getQuestionsHistory();
             Question question = quiz.getQuestionList().get(0);
             for(QuestionHistory questionHistory: questionsHistory){
-                if(question.getText().equals(questionService.findById(questionHistory.getQuestionId()).getText())){
+                if(question.getText().equals(questionHistory.getText())){
                     List<Long> answerIds = questionHistory.getAnswerIds();
                     for(Long id: answerIds){
                         Answer answer = answerService.findAnswerById(id);
@@ -91,6 +89,7 @@ public class AlgorithmService {
                                 answers.add(answer1);
                             }
                         }
+                        answers.add(answer);
                     }
                 }
             }
@@ -110,9 +109,7 @@ public class AlgorithmService {
             }
             answers.clear();
             quiz.getQuestionList().remove(0);
-
         }
-        // tu skonczyc
 
         return quiz;
     }
@@ -122,7 +119,7 @@ public class AlgorithmService {
             return false;
         Question question = questions.get(0);
         for(QuestionHistory questionHistory: questionsHistory){
-            if(question.getText().equals(questionService.findById(questionHistory.getQuestionId()).getText())){
+            if(question.getText().equals(questionHistory.getText())){
                 return true;
             }
         }
@@ -139,6 +136,16 @@ public class AlgorithmService {
         for(String code: codes) {
             Optional<ElementaryGroup> elementaryGroup = elementaryGroupService.findByCode(code);
             elementaryGroup.ifPresent(elementaryGroups::add);
+        }
+
+        elementaryGroups.sort(Comparator.comparing(ElementaryGroup::getCode));
+        int i = 1;
+        while(i < elementaryGroups.size()) {
+            if(elementaryGroups.get(i).getCode().equals(elementaryGroups.get(i - 1).getCode())){
+                elementaryGroups.remove(i);
+            } else {
+                i++;
+            }
         }
 
         return elementaryGroups;
