@@ -3,12 +3,21 @@ package pl.programowaniezespolowe.projekt.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pl.programowaniezespolowe.projekt.dto.PasswordDto;
+import pl.programowaniezespolowe.projekt.model.User;
 import pl.programowaniezespolowe.projekt.payload.request.ChangeEmailRequest;
 import pl.programowaniezespolowe.projekt.payload.request.ChangePasswordRequest;
 import pl.programowaniezespolowe.projekt.payload.request.RemoveAccountRequest;
+import pl.programowaniezespolowe.projekt.payload.response.ResetPasswordResponse;
 import pl.programowaniezespolowe.projekt.service.CredentialsService;
+import pl.programowaniezespolowe.projekt.service.MailService;
+import pl.programowaniezespolowe.projekt.service.PasswordTokenService;
+import pl.programowaniezespolowe.projekt.service.UserDetailsServiceImpl;
 
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.UUID;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -17,6 +26,50 @@ public class CredentialsController {
 
     @Autowired
     private CredentialsService credentialsService;
+
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    private MailService mailService;
+
+    @Autowired
+    private PasswordTokenService passwordTokenService;
+
+    @PostMapping("/resetPassword")
+    public ResetPasswordResponse resetPassword(@RequestBody String email) throws MessagingException {
+        User user = userDetailsService.findByEmail(email);
+        String token = UUID.randomUUID().toString();
+        userDetailsService.createPasswordResetTokenForUser(user, token);
+        String title = "Reset your password for Tiara Przydzialu";
+        String content = "Use this link to reset your password: ";
+        String url = "http://localhost:8080/api/credentials/resetPassword?token=" + token;
+        try {
+            mailService.sendEmail(email, title, content + token, false);
+        } catch (Exception e){
+            return new ResetPasswordResponse("Nie udalo sie wyslac tokenu", "404");
+        }
+        return new ResetPasswordResponse("Token wyslany", "200");
+    }
+
+    @GetMapping("/resetPassword")
+    public ResetPasswordResponse showChangePasswordPage(@RequestParam("token") String token){
+        if(passwordTokenService.validatePasswordResetToken(token) == null){
+            return new ResetPasswordResponse("Token is valid.", "200");
+        }
+        return new ResetPasswordResponse("Token invalid.", "404");
+    }
+
+    @PostMapping("/resetPassword")
+    public ResetPasswordResponse savePassword(@RequestBody PasswordDto passwordDto){
+        if(passwordTokenService.validatePasswordResetToken(passwordDto.getToken()) != null){
+            return new ResetPasswordResponse("Token is invalid.", "404");
+        }
+        User user = userDetailsService.findUserByPasswordToken(passwordDto.getToken());
+        userDetailsService.changePassword(user, passwordDto.getNewPassword());
+        return new ResetPasswordResponse("Password is successfully changed.", "200");
+
+    }
 
 
     @PostMapping("/changepassword")

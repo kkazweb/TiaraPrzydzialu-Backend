@@ -1,14 +1,14 @@
 package pl.programowaniezespolowe.projekt.controller;
 
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import pl.programowaniezespolowe.projekt.service.MailService;
+        import lombok.AllArgsConstructor;
+        import org.springframework.beans.factory.annotation.Autowired;
+        import org.springframework.web.bind.annotation.CrossOrigin;
+        import org.springframework.web.bind.annotation.GetMapping;
+        import org.springframework.web.bind.annotation.RequestMapping;
+        import org.springframework.web.bind.annotation.RestController;
+        import pl.programowaniezespolowe.projekt.service.MailService;
 
-import javax.mail.MessagingException;
+        import javax.mail.MessagingException;
 
 @RestController
 @RequestMapping("/api/mail")
@@ -20,7 +20,7 @@ public class MailController {
 
     @GetMapping("/sendEmail")
     public String sendTestEmail() throws MessagingException {
-        mailService.sendEmail("testemail123@gg.com", "u won", "<b> 100 zl </b><br> :P", true);
+        mailService.sendEmail("297038@mat.umk.pl", "u didnt win hundred zlotys", "<b> 100 zl </b><br> 0 scam 100% legit", true);
         return "wyslano";
     }
 }
