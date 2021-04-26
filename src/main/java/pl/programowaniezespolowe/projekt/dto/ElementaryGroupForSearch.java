@@ -13,5 +13,4 @@ public class ElementaryGroupForSearch {
     private String name;
     private String synthesis;
     private String tasks;
-
 }
