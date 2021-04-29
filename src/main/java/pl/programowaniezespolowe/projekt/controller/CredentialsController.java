@@ -52,7 +52,7 @@ public class CredentialsController {
         return new ResetPasswordResponse("Token wyslany", "200");
     }
 
-    @GetMapping("/resetPassword")
+    @GetMapping("/resetPassword/{token}")
     public ResetPasswordResponse showChangePasswordPage(@RequestParam("token") String token){
         if(passwordTokenService.validatePasswordResetToken(token) == null){
             return new ResetPasswordResponse("Token is valid.", "200");
