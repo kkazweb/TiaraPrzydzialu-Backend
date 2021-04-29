@@ -41,11 +41,11 @@ public class CredentialsController {
         User user = userDetailsService.findByEmail(email);
         String token = UUID.randomUUID().toString();
         userDetailsService.createPasswordResetTokenForUser(user, token);
-        String title = "Reset your password for Tiara Przydzialu";
-        String content = "Use this link to reset your password: ";
+        String title = "Zmiana hasła do Tiary Przydziału";
+        String content = "Cześć!\n Aby zmienić hasło do Twojego konta w Tiarze Przydziału skopiuj poniższy kod i wklej go na stronie:\n " + token + "\nPozdrawiamy,\n Zespół U Mnie Działa!";
         String url = "http://localhost:8080/api/credentials/resetPassword?token=" + token;
         try {
-            mailService.sendEmail(email, title, content + token, false);
+            mailService.sendEmail(email, title, content, false);
         } catch (Exception e){
             return new ResetPasswordResponse("Nie udalo sie wyslac tokenu", "404");
         }
