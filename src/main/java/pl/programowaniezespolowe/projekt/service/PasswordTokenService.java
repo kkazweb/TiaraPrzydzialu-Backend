@@ -14,7 +14,7 @@ public class PasswordTokenService {
     private PasswordTokenRepository passwordTokenRepository;
 
     public String validatePasswordResetToken(String token) {
-        final PasswordResetToken passToken = passwordTokenRepository.findByToken(token);
+        final PasswordResetToken passToken = passwordTokenRepository.findByToken(token).orElseThrow(() -> new IllegalArgumentException("Token not existing."));
 
         return !isTokenFound(passToken) ? "invalidToken"
                 : isTokenExpired(passToken) ? "expired"

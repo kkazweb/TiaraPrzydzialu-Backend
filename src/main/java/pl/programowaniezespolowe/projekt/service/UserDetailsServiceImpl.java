@@ -13,6 +13,7 @@ import pl.programowaniezespolowe.projekt.repository.PasswordTokenRepository;
 import pl.programowaniezespolowe.projekt.repository.UserRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -34,7 +35,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     public User findUserByPasswordToken(String token){
-        return this.passwordTokenRepository.findUserByToken(token).orElseThrow(() -> new UsernameNotFoundException("Nie znaleziono uzytkownika o tokenie " + token));
+        PasswordResetToken myToken = passwordTokenRepository.findByToken(token).orElseThrow(() -> new NoSuchElementException("Token not existing."));
+        User user = myToken.getUser();
+        return user;
     }
 
 
