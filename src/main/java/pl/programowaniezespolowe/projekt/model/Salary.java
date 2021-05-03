@@ -16,6 +16,8 @@ public class Salary {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private String groupCodeName;
+
     private String groupCodeId;
 
     private double salaryAll;

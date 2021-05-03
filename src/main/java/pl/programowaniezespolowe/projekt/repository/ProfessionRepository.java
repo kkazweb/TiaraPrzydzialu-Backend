@@ -11,4 +11,5 @@ import java.util.List;
 public interface ProfessionRepository extends CrudRepository<Profession, Long>, JpaSpecificationExecutor<Profession> {
     List<Profession> findAllByNameContainsIgnoreCaseOrCodeStartsWith(String phrase, String code);
     List<Profession> findAllByNameStartsWith(String letter);
+    Profession findByCode(String groupCode);
 }
