@@ -1,5 +1,6 @@
 package pl.programowaniezespolowe.projekt.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -22,18 +23,15 @@ import java.util.UUID;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/credentials")
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class CredentialsController {
 
-    @Autowired
     private CredentialsService credentialsService;
 
-    @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
-    @Autowired
     private MailService mailService;
 
-    @Autowired
     private PasswordTokenService passwordTokenService;
 
     @PostMapping("/resetPassword")
@@ -53,14 +51,14 @@ public class CredentialsController {
     }
 
     @GetMapping("/resetPassword/{token}")
-    public ResetPasswordResponse showChangePasswordPage(@RequestParam("token") String token){
+    public ResetPasswordResponse showChangePasswordPage(@PathVariable String token){
         if(passwordTokenService.validatePasswordResetToken(token) == null){
             return new ResetPasswordResponse("Token is valid.", "200");
         }
         return new ResetPasswordResponse("Token invalid.", "404");
     }
 
-    @PostMapping("/resetPassword")
+    @PostMapping("/resetPassword/save")
     public ResetPasswordResponse savePassword(@RequestBody PasswordDto passwordDto){
         if(passwordTokenService.validatePasswordResetToken(passwordDto.getToken()) != null){
             return new ResetPasswordResponse("Token is invalid.", "404");
