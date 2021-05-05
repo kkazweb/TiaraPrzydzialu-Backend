@@ -21,6 +21,12 @@ public class PasswordTokenService {
                 : null;
     }
 
+    public void removeToken(String token) {
+        PasswordResetToken passwordResetToken = passwordTokenRepository.findByToken(token).orElseThrow(() -> new IllegalArgumentException("Token not existing."));
+        passwordTokenRepository.delete(passwordResetToken);
+
+    }
+
     private boolean isTokenFound(PasswordResetToken passToken) {
         return passToken != null;
     }

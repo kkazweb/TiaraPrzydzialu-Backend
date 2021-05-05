@@ -65,6 +65,7 @@ public class CredentialsController {
         }
         User user = userDetailsService.findUserByPasswordToken(passwordDto.getToken());
         credentialsService.resetPassword(user.getId(), passwordDto.getNewPassword());
+        passwordTokenService.removeToken(passwordDto.getToken());
         return new ResetPasswordResponse("Password is successfully changed.", "200");
 
     }
