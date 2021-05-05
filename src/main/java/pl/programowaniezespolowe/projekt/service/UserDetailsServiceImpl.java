@@ -2,10 +2,13 @@ package pl.programowaniezespolowe.projekt.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.programowaniezespolowe.projekt.configuration.JwtUtils;
 import pl.programowaniezespolowe.projekt.model.PasswordResetToken;
 import pl.programowaniezespolowe.projekt.model.User;
 import pl.programowaniezespolowe.projekt.model.UserDetailsImpl;
@@ -56,11 +59,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("Nie znaleziono uzytkownika o id: " + id));
         return user;
-    }
-
-    public void changePassword(User user, String password){
-        user.setPassword(password);
-        userRepository.save(user);
     }
 
 }

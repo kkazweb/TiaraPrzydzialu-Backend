@@ -64,7 +64,7 @@ public class CredentialsController {
             return new ResetPasswordResponse("Token is invalid.", "404");
         }
         User user = userDetailsService.findUserByPasswordToken(passwordDto.getToken());
-        userDetailsService.changePassword(user, passwordDto.getNewPassword());
+        credentialsService.resetPassword(user.getId(), passwordDto.getNewPassword());
         return new ResetPasswordResponse("Password is successfully changed.", "200");
 
     }
