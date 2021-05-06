@@ -43,6 +43,13 @@ public class CredentialsService {
         return false;
     }
 
+    public boolean resetPassword(Long userId, String passwordNew){
+        User user1 = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User with ID: " + userId + " not found - CredentialsService"));
+        user1.setPassword(passwordEncoder.encode(passwordNew));
+        userRepository.save(user1);
+        return true;
+    }
+
     public boolean changeEmail(Long userId, String passwordOld, String emailNew){
         User user1 = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User with ID: " + userId + " not found - CredentialsService"));
         try {
