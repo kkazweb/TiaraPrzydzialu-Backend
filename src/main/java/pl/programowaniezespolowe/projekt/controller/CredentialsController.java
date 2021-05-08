@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.programowaniezespolowe.projekt.dto.PasswordDto;
+import pl.programowaniezespolowe.projekt.model.PasswordResetToken;
 import pl.programowaniezespolowe.projekt.model.User;
 import pl.programowaniezespolowe.projekt.payload.request.ChangeEmailRequest;
 import pl.programowaniezespolowe.projekt.payload.request.ChangePasswordRequest;
@@ -18,6 +19,7 @@ import pl.programowaniezespolowe.projekt.service.UserDetailsServiceImpl;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -37,6 +39,10 @@ public class CredentialsController {
     @PostMapping("/resetPassword")
     public ResetPasswordResponse resetPassword(@RequestBody String email) throws MessagingException {
         User user = userDetailsService.findByEmail(email);
+        List<PasswordResetToken> passwordResetTokenList = this.passwordTokenService.getTokensForUser(user);
+        for(PasswordResetToken token: passwordResetTokenList){
+            this.passwordTokenService.removeToken(token.getToken());
+        }
         String token = UUID.randomUUID().toString();
         userDetailsService.createPasswordResetTokenForUser(user, token);
         String title = "Zmiana hasła do Tiary Przydziału";
@@ -59,7 +65,7 @@ public class CredentialsController {
     }
 
     @PostMapping("/resetPassword/save")
-    public ResetPasswordResponse savePassword(@RequestBody PasswordDto passwordDto){
+    public ResetPasswordResponse savePassword(@RequestBody @Valid PasswordDto passwordDto){
         if(passwordTokenService.validatePasswordResetToken(passwordDto.getToken()) != null){
             return new ResetPasswordResponse("Token is invalid.", "404");
         }
