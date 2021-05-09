@@ -4,15 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class QuestionHistory {
-
-    private Long questionId;
+@NoArgsConstructor
+public class AnswerForHistory {
+    private Long id;
     private String text;
-
-    private List<AnswerForHistory> answersForHistory;
 }

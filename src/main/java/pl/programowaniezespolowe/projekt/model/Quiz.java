@@ -31,13 +31,6 @@ public class Quiz {
         this.questionList.remove(0);
     }
 
-    public void updateQuestionsHistory(Question question, List<Long> answerIds){
-        QuestionHistory questionHistory = new QuestionHistory();
-        questionHistory.setAnswerIds(answerIds);
-        questionHistory.setQuestionId(question.getId());
-        questionsHistory.add(questionHistory);
-    }
-
     public List<String> endQuiz(){
         return this.groupCodes;
     }

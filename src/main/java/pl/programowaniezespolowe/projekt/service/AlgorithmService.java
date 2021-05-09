@@ -49,10 +49,15 @@ public class AlgorithmService {
         questionHistory1.setQuestionId(quiz.getQuestionList().get(0).getId());
         questionHistory1.setText(quiz.getQuestionList().get(0).getText());
         List<Long> answerIds1 = new ArrayList<>();
+
+        List<AnswerForHistory> answersForHistory = new ArrayList<>();
+
         for(Answer answer: answers){
-            answerIds1.add(answer.getId());
+            AnswerForHistory answerForHistory = new AnswerForHistory(answer.getId(), answer.getText());
+            answersForHistory.add(answerForHistory);
         }
-        questionHistory1.setAnswerIds(answerIds1);
+
+        questionHistory1.setAnswersForHistory(answersForHistory);
         quiz.getQuestionsHistory().add(questionHistory1);
 
         if(quiz.getQuestionList().size() > 0)
@@ -81,9 +86,8 @@ public class AlgorithmService {
             Question question = quiz.getQuestionList().get(0);
             for(QuestionHistory questionHistory: questionsHistory){
                 if(question.getText().equals(questionHistory.getText())){
-                    List<Long> answerIds = questionHistory.getAnswerIds();
-                    for(Long id: answerIds){
-                        Answer answer = answerService.findAnswerById(id);
+                    for(AnswerForHistory answerForHistory: questionHistory.getAnswersForHistory()){
+                        Answer answer = answerService.findAnswerById(answerForHistory.getId());
                         for(Answer answer1: question.getAnswers()){
                             if(answer1.getText().equals(answer.getText())){
                                 answers.add(answer1);
