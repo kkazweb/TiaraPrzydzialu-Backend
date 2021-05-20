@@ -39,7 +39,8 @@ public class Quiz {
     }
 
     public void addCode(String code){
-        this.groupCodes.add(code);
+        if(!this.groupCodes.contains(code))
+            this.groupCodes.add(code);
     }
 
     public List<Question> getQuestionList(){

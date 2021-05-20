@@ -49,7 +49,6 @@ public class AlgorithmService {
         QuestionHistory questionHistory1 = new QuestionHistory();
         questionHistory1.setQuestionId(quiz.getQuestionList().get(0).getId());
         questionHistory1.setText(quiz.getQuestionList().get(0).getText());
-        List<Long> answerIds1 = new ArrayList<>();
 
         List<AnswerForHistory> answersForHistory = new ArrayList<>();
 
@@ -64,17 +63,21 @@ public class AlgorithmService {
         if(quiz.getQuestionList().size() > 0)
             quiz.getQuestionList().remove(0);
 
+        System.out.println("Answers: " + answers);
         for (Answer value : answers) {
+            System.out.println("Value addsGroupCodes size: " + value.getAddsGroupCodes().size());
             for (int j = 0; j < value.getAddsGroupCodes().size(); j++) {
                 if(value.getAddsGroupCodes().get(j).length() == 4){
                     if(isNumeric(value.getAddsGroupCodes().get(j))){
                         System.out.println("Found a group code of length 4: " + value.getAddsGroupCodes().get(j));
                         List<String> groupCodes1 = quiz.getGroupCodes();
-                        groupCodes1.add(value.getAddsGroupCodes().get(j));
+                        if(!groupCodes1.contains(value.getAddsGroupCodes().get(j)))
+                            groupCodes1.add(value.getAddsGroupCodes().get(j));
                         quiz.setGroupCodes(groupCodes1);
                         continue;
                     }
                 }
+                //System.out.println("Group codes: " + quiz.getGroupCodes());
                 List<Question> questionList = questionService.findQuestionByGroupCode(value.getAddsGroupCodes().get(j));
 //                if (questionList.size() == 0) {
 //                    // to oznacza ze mamy grupe elementarna lub nie ma question w bazie
@@ -84,19 +87,27 @@ public class AlgorithmService {
 //                } else {
 //                    optionalQuestion.get().forEach(quiz::addQuestion);
 //                }
-                questionList.forEach(quiz::addQuestion);
+//                questionList.forEach(quiz::addQuestion);
+                for(int i = 0; i < questionList.size(); i++){
+                    List<Question> listToCheck = new ArrayList<>();
+                    listToCheck.add(questionList.get(i));
+                    if(!quiz.getQuestionList().contains(questionList.get(i)) || checkIfQuestionWasAsked(listToCheck, quiz.getQuestionsHistory())){
+                        quiz.addQuestion(questionList.get(i));
+                    }
+                }
 
             }
         }
         //System.out.println(quiz.getQuestionList());
-        System.out.println("Current questionList: ");
-        for(int i = 0; i < quiz.getQuestionList().size(); i++){
-            System.out.println("Question number " + i + ": " + quiz.getQuestionList().get(i));
-        }
+//        System.out.println("Current questionList: ");
+//        for(int i = 0; i < quiz.getQuestionList().size(); i++){
+//            System.out.println("Question number " + i + ": " + quiz.getQuestionList().get(i));
+//        }
         quiz.getAnswerIds().clear();
         answers.clear();
 
         while(checkIfQuestionWasAsked(quiz.getQuestionList(), quiz.getQuestionsHistory())){
+            System.out.println("Found already asked question: " + quiz.getQuestionList().get(0));
             List<QuestionHistory> questionsHistory = quiz.getQuestionsHistory();
             Question question = quiz.getQuestionList().get(0);
             for(QuestionHistory questionHistory: questionsHistory){
@@ -108,7 +119,6 @@ public class AlgorithmService {
                                 answers.add(answer1);
                             }
                         }
-                        answers.add(answer);
                     }
                 }
             }
@@ -128,11 +138,13 @@ public class AlgorithmService {
                         if(isNumeric(answer.getAddsGroupCodes().get(j))){
                             System.out.println("Found a group code of length 4: " + answer.getAddsGroupCodes().get(j));
                             List<String> groupCodes1 = quiz.getGroupCodes();
-                            groupCodes1.add(answer.getAddsGroupCodes().get(j));
+                            if(!groupCodes1.contains(answer.getAddsGroupCodes().get(j)))
+                                groupCodes1.add(answer.getAddsGroupCodes().get(j));
                             quiz.setGroupCodes(groupCodes1);
                             continue;
                         }
                     }
+                    //System.out.println("Group codes: " + quiz.getGroupCodes());
                     List<Question> questionList = questionService.findQuestionByGroupCode(answer.getAddsGroupCodes().get(j));
 //                if (questionList.size() == 0) {
 //                    // to oznacza ze mamy grupe elementarna lub nie ma question w bazie
@@ -142,11 +154,19 @@ public class AlgorithmService {
 //                } else {
 //                    optionalQuestion.get().forEach(quiz::addQuestion);
 //                }
-                    questionList.forEach(quiz::addQuestion);
+//                    questionList.forEach(quiz::addQuestion);
+                    for(int i = 0; i < questionList.size(); i++){
+                        List<Question> listToCheck = new ArrayList<>();
+                        listToCheck.add(questionList.get(i));
+                        if(!quiz.getQuestionList().contains(questionList.get(i)) || checkIfQuestionWasAsked(listToCheck, quiz.getQuestionsHistory())){
+                            quiz.addQuestion(questionList.get(i));
+                        }
+                    }
                 }
             }
             answers.clear();
             quiz.getQuestionList().remove(0);
+            quiz.setAnswerIds(new ArrayList<>());
         }
 
         return quiz;
@@ -189,8 +209,8 @@ public class AlgorithmService {
         List<ElementaryGroup> elementaryGroups = new ArrayList<>();
 
         for(String code: codes) {
-            Optional<ElementaryGroup> elementaryGroup = elementaryGroupService.findByCode(code);
-            elementaryGroup.ifPresent(elementaryGroups::add);
+            ElementaryGroup elementaryGroup = elementaryGroupService.findByCode(code);
+            elementaryGroups.add(elementaryGroup);
         }
 
         elementaryGroups.sort(Comparator.comparing(ElementaryGroup::getCode));
