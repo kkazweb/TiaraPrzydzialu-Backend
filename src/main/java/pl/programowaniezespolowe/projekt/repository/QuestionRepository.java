@@ -12,10 +12,10 @@ public interface QuestionRepository extends CrudRepository<Question, Long> {
 
     List<Question> findAll();
 
-    List<Question> findQuestionsByGroupCode(String code);
+    //List<Question> findQuestionsByGroupCode(String code);
 
 //    Question findQuestionByGroupCode(String code);
-    Optional<List<Question>> findQuestionByGroupCode(String code);
+    List<Question> findQuestionsByGroupCode(String code);
 
     Question findQuestionById(Long questionId);
 //    Optional<Question> findQuestionById(Long questionId);

@@ -12,9 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Quiz {
 
-//    private Map<Answer, Question> questionsHistory; // key is unique (answer), value doesnt need to
-    // map type isn't compatible with json data so we have to re-do this, probably another list of objects of new class
-    // that imitates map (2 props - key and value)
     private List<QuestionHistory> questionsHistory;
 
     private List<String> groupCodes;

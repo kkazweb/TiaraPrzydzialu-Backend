@@ -30,17 +30,17 @@ public class QuestionService {
         return questionRepository.findAll();
     }
 
-    public List<Question> findQuestionsByGroupCode(String code){
+//    public List<Question> findQuestionsByGroupCode(String code){
+//        return questionRepository.findQuestionsByGroupCode(code);
+//    }
+
+    public List<Question> findAllByGroupCode(String code){
         return questionRepository.findQuestionsByGroupCode(code);
     }
 
-    public Iterable<Question> findAllByGroupCode(String code){
-        return questionRepository.findQuestionsByGroupCode(code);
-    }
-
-    public Optional<List<Question>> findQuestionByGroupCode(String code){
+    public List<Question> findQuestionByGroupCode(String code){
         System.out.println("trying to find question code " + code);
-        return questionRepository.findQuestionByGroupCode(code);
+        return questionRepository.findQuestionsByGroupCode(code);
 //        return questionRepository.findQuestionByGroupCode(code);
     }
 
